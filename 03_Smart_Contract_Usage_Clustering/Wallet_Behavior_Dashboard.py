@@ -11,7 +11,7 @@ import plotly.express as px
 st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
 
 # Load data
-df = pd.read_csv("/Users/bahareh/Desktop/My_Job/BlochChain/Git/ml-in-crypto/03_Smart_Contract_Usage_Clustering/final_clustered_wallets.csv")
+df = pd.read_csv("final_clustered_wallets.csv")
 st.title("📊 Wallet Behavior Dashboard")
 
 
