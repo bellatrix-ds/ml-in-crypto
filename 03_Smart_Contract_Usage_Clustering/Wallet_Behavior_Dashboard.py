@@ -16,6 +16,9 @@ st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
 url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/data.csv"
 
 df = pd.read_csv(url, on_bad_lines='skip')  
+# Convert BLOCK_TIMESTAMP to datetime
+df["BLOCK_TIMESTAMP"] = pd.to_datetime(df["BLOCK_TIMESTAMP"], errors="coerce")
+df = df.dropna(subset=["BLOCK_TIMESTAMP"])
 st.title("📊 Wallet Behavior Dashboard")
 
 
