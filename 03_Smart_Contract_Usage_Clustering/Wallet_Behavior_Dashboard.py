@@ -3,7 +3,6 @@
 
 # In[ ]:
 
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -11,9 +10,9 @@ import plotly.express as px
 st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
 
 # Load data
-df = pd.read_csv("final_clustered_wallets.csv")
-st.title("📊 Wallet Behavior Dashboard")
+df = pd.read_csv('/workspaces/ml-in-crypto/03_Smart_Contract_Usage_Clustering/final_clustered_wallets.csv')
 
+st.title("📊 Wallet Behavior Dashboard")
 
 
 # Cluster distribution
@@ -56,4 +55,3 @@ with col2:
 
 st.markdown("---")
 st.caption("Built with ❤️ using Streamlit and Plotly")
-
