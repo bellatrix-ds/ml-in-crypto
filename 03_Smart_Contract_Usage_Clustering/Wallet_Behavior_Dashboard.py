@@ -14,6 +14,7 @@ st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
 
 # Load data
 url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/data.csv"
+
 df = pd.read_csv(url, on_bad_lines='skip')  
 st.title("📊 Wallet Behavior Dashboard")
 
