@@ -10,7 +10,17 @@ import plotly.express as px
 st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
 
 # Load data
-df = pd.read_csv('https://github.com/bellatrix-ds/ml-in-crypto/edit/main/03_Smart_Contract_Usage_Clustering/final_clustered_wallets.csv')
+url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/final_clustered_wallets.csv"
+
+try:
+    df = pd.read_csv(url, on_bad_lines='skip')  # for pandas >= 1.3
+    st.success("✅ CSV Loaded Successfully!")
+    st.dataframe(df.head())
+except Exception as e:
+    st.error(f"❌ Failed to load CSV:\n{e}")
+
+
+
 st.title("📊 Wallet Behavior Dashboard")
 
 # Cluster distribution
