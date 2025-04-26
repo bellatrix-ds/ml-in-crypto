@@ -76,6 +76,10 @@ persona_summary = persona_data.groupby('FROM_ADDRESS').agg({
 
 avg_tx_week = persona_summary['tx_count'] / (7/7)
 avg_tx_month = persona_summary['tx_count'] / (30/7)
+avg_tx_week_rounded = round(avg_tx_week)
+avg_tx_month_rounded = round(avg_tx_month)
+st.metric(\"Avg Transactions per Week\", f\"{avg_tx_week_rounded} times/week\")
+st.metric(\"Avg Transactions per Month\", f\"{avg_tx_month_rounded} times/month\")
 
 eth_price = 3000  # replace with dynamic price if needed
 avg_gas_eth = persona_summary['GAS_USED'] / 1e9
