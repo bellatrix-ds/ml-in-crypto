@@ -10,8 +10,6 @@ import plotly.graph_objects as go
 import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime
-import math
-
 # --------------------------------------
 # Page config
 st.set_page_config(page_title="OnChain Pulse: Wallet Activity Tracker", layout="wide")
@@ -22,7 +20,6 @@ url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/ma
 data = pd.read_csv(url, on_bad_lines='skip')  
 data["BLOCK_TIMESTAMP"] = pd.to_datetime(data["BLOCK_TIMESTAMP"], errors="coerce")
 data = data.dropna(subset=["BLOCK_TIMESTAMP"])
-
 
 # Calculate additional metrics
 data['Gas_Efficiency'] = data['VALUE'] / data['GAS_USED'].replace(0, 1)
@@ -37,6 +34,7 @@ selected_persona = st.sidebar.multiselect("Select Dominant Persona", options=dat
 mask = (data['BLOCK_TIMESTAMP'].dt.date >= selected_dates[0]) & (data['BLOCK_TIMESTAMP'].dt.date <= selected_dates[1])
 mask &= data['dominant_persona'].isin(selected_persona)
 data = data[mask]
+
 # Section 1: Trends Over Time
 st.subheader("1. Persona Market Share and Value/Gas Trends Over Time")
 col1, col2 = st.columns(2)
@@ -53,7 +51,6 @@ value_gas = data.groupby([pd.Grouper(key='BLOCK_TIMESTAMP', freq='W'), 'dominant
 }).reset_index()
 fig2 = px.line(value_gas, x='BLOCK_TIMESTAMP', y='VALUE', color='dominant_persona', title="Average VALUE Over Time")
 col2.plotly_chart(fig2, use_container_width=True)
-
 
 # Section 2: Top Wallets
 st.subheader("2. Top Wallets by Activity")
@@ -76,18 +73,23 @@ persona_summary = persona_data.groupby('FROM_ADDRESS').agg({
     'FROM_ADDRESS':'count'
 }).rename(columns={'FROM_ADDRESS':'tx_count'}).mean()
 
+# Calculate transactions per week and month
 avg_tx_week = persona_summary['tx_count'] / (7/7)
 avg_tx_month = persona_summary['tx_count'] / (30/7)
 
-eth_price = 3000  # replace with dynamic price if needed
+# Calculate Gas Usage
+eth_price = 3000  # (replace this if you want to fetch live ETH price later)
 avg_gas_eth = persona_summary['GAS_USED'] / 1e9
 avg_gas_usd = avg_gas_eth * eth_price
 
-st.metric("Avg Transactions per Week", f"{avg_tx_week:.2f}")
-st.metric("Avg Transactions per Month", f"{avg_tx_month:.2f}")
-st.metric("Avg Gas Used (ETH)", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:.2f})")
+# Display
+col1, col2, col3 = st.columns(3)
 
-# Section 4: Behavioral Ratios
+col1.metric("Avg Transactions per Week", f"{avg_tx_week:.2f}")
+col2.metric("Avg Transactions per Month", f"{avg_tx_month:.2f}")
+col3.metric("Avg Gas Used", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:,.2f})")
+
+# Section 4: Behavioral Patterns
 st.subheader("4. Behavioral Patterns")
 
 # Heatmap of transaction hours
