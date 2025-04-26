@@ -123,6 +123,56 @@ biggest_drop = compare['change_%'].idxmin()
 
 col7.metric("Biggest Increase", f"{biggest_increase} ({compare['change_%'].max():.2f}%)")
 col8.metric("Biggest Drop", f"{biggest_drop} ({compare['change_%'].min():.2f}%)")
+#___new
+# Section 6: Advanced Analytics
+st.subheader("6. Advanced Analytics")
+
+# Prepare columns
+col1, col2 = st.columns(2)
+
+# --- Chart 1: Cumulative Wallet Growth ---
+wallet_growth = data.groupby(data['BLOCK_TIMESTAMP'].dt.to_period('W'))['FROM_ADDRESS'].nunique().cumsum().reset_index()
+wallet_growth['BLOCK_TIMESTAMP'] = wallet_growth['BLOCK_TIMESTAMP'].astype(str)
+
+fig_wallet_growth = px.line(wallet_growth, 
+                             x='BLOCK_TIMESTAMP', 
+                             y='FROM_ADDRESS',
+                             title="Cumulative Wallet Growth Over Time",
+                             labels={'FROM_ADDRESS': 'Total Unique Wallets', 'BLOCK_TIMESTAMP': 'Week'})
+col1.plotly_chart(fig_wallet_growth, use_container_width=True)
+
+# --- Chart 2: Transaction Heatmap (Day vs Hour) ---
+data['weekday'] = data['BLOCK_TIMESTAMP'].dt.day_name()
+data['hour'] = data['BLOCK_TIMESTAMP'].dt.hour
+
+heatmap_data = data.groupby(['weekday', 'hour']).size().unstack(fill_value=0)
+# مرتب سازی روزهای هفته
+heatmap_data = heatmap_data.reindex(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+
+fig_heatmap = px.imshow(heatmap_data,
+                        labels=dict(x="Hour of Day", y="Day of Week", color="Number of TXs"),
+                        title="Transaction Heatmap (Day vs Hour)")
+col2.plotly_chart(fig_heatmap, use_container_width=True)
+
+# --- New Row for next charts ---
+col3, col4 = st.columns(2)
+
+# --- Chart 3: Top 10 Biggest Transactions ---
+top_transactions = data[['FROM_ADDRESS', 'TO_ADDRESS', 'VALUE', 'dominant_persona']].sort_values(by='VALUE', ascending=False).head(10)
+
+col3.subheader("Top 10 Biggest Transactions")
+col3.dataframe(top_transactions)
+
+# --- Chart 4: Transaction Size Variability ---
+fig_boxplot = px.box(data, 
+                     x='dominant_persona', 
+                     y='VALUE',
+                     title="Transaction Size Variability by Persona",
+                     points="outliers")
+col4.plotly_chart(fig_boxplot, use_container_width=True)
+
+
+
 
 # ـــ
 st.markdown("---")
