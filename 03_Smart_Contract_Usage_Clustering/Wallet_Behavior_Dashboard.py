@@ -36,7 +36,6 @@ selected_persona = st.sidebar.multiselect("Select Dominant Persona", options=dat
 mask = (data['BLOCK_TIMESTAMP'].dt.date >= selected_dates[0]) & (data['BLOCK_TIMESTAMP'].dt.date <= selected_dates[1])
 mask &= data['dominant_persona'].isin(selected_persona)
 data = data[mask]
-
 # Section 1: Trends Over Time
 st.subheader("1. Persona Market Share and Value/Gas Trends Over Time")
 col1, col2 = st.columns(2)
@@ -46,7 +45,7 @@ data_grouped = data.groupby([pd.Grouper(key='BLOCK_TIMESTAMP', freq='W'), 'domin
 fig1 = px.line(data_grouped, x='BLOCK_TIMESTAMP', y='count', color='dominant_persona', title="Persona Market Share Over Time")
 col1.plotly_chart(fig1, use_container_width=True)
 
-# Average VALUE/GAS Over Time
+# Average VALUE Over Time
 value_gas = data.groupby([pd.Grouper(key='BLOCK_TIMESTAMP', freq='W'), 'dominant_persona']).agg({
     'VALUE': 'mean',
     'GAS_USED': 'mean'
@@ -59,12 +58,10 @@ st.subheader("2. Top Wallets by Activity")
 col3, col4 = st.columns(2)
 
 top_value = data.groupby('FROM_ADDRESS').agg({'VALUE':'sum', 'dominant_persona':'first'}).sort_values(by='VALUE', ascending=False).head(10).reset_index()
-fig3 = px.bar(top_value, x='FROM_ADDRESS', y='VALUE', color='dominant_persona', title="Top 10 Wallets by Total VALUE")
-col3.plotly_chart(fig3, use_container_width=True)
+col3.dataframe(top_value[['FROM_ADDRESS', 'dominant_persona', 'VALUE']])
 
 top_gas = data.groupby('FROM_ADDRESS').agg({'GAS_USED':'sum', 'dominant_persona':'first'}).sort_values(by='GAS_USED', ascending=False).head(10).reset_index()
-fig4 = px.bar(top_gas, x='FROM_ADDRESS', y='GAS_USED', color='dominant_persona', title="Top 10 Wallets by Total GAS Used")
-col4.plotly_chart(fig4, use_container_width=True)
+col4.dataframe(top_gas[['FROM_ADDRESS', 'dominant_persona', 'GAS_USED']])
 
 # Section 3: Persona-Specific Deep Dive
 st.subheader("3. Persona-Specific Deep Dive")
@@ -77,26 +74,29 @@ persona_summary = persona_data.groupby('FROM_ADDRESS').agg({
     'FROM_ADDRESS':'count'
 }).rename(columns={'FROM_ADDRESS':'tx_count'}).mean()
 
-st.metric("Avg Transaction Size", round(persona_summary['VALUE'], 4))
-st.metric("Avg Gas Used", round(persona_summary['GAS_USED'], 4))
-st.metric("Avg Transactions per Wallet", round(persona_summary['tx_count'], 2))
+avg_tx_week = persona_summary['tx_count'] / (7/7)
+avg_tx_month = persona_summary['tx_count'] / (30/7)
+
+eth_price = 3000  # replace with dynamic price if needed
+avg_gas_eth = persona_summary['GAS_USED'] / 1e9
+avg_gas_usd = avg_gas_eth * eth_price
+
+st.metric("Avg Transactions per Week", f"{avg_tx_week:.2f}")
+st.metric("Avg Transactions per Month", f"{avg_tx_month:.2f}")
+st.metric("Avg Gas Used (ETH)", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:.2f})")
 
 # Section 4: Behavioral Ratios
-st.subheader("4. Behavioral Ratios")
-col5, col6 = st.columns(2)
+st.subheader("4. Behavioral Patterns")
 
-behavioral_ratios = data.groupby('dominant_persona').agg({
-    'Gas_Efficiency': 'mean',
-    'VALUE': 'mean',
-    'GAS_USED': 'mean'
-}).reset_index()
-behavioral_ratios['Value_per_TX'] = behavioral_ratios['VALUE'] / (behavioral_ratios['GAS_USED'].replace(0, 1))
+# Heatmap of transaction hours
+st.subheader("Heatmap of Transaction Hours by Persona")
+data['hour'] = data['BLOCK_TIMESTAMP'].dt.hour
+heatmap_data = data.groupby(['dominant_persona', 'hour']).size().unstack(fill_value=0)
 
-fig5 = px.bar(behavioral_ratios, x='dominant_persona', y='Gas_Efficiency', title="Gas Efficiency by Persona")
-col5.plotly_chart(fig5, use_container_width=True)
-
-fig6 = px.bar(behavioral_ratios, x='dominant_persona', y='Value_per_TX', title="Value per Transaction by Persona")
-col6.plotly_chart(fig6, use_container_width=True)
+fig, ax = plt.subplots(figsize=(12, 6))
+sns.heatmap(heatmap_data, cmap="Blues", ax=ax)
+plt.title("Transaction Activity by Hour and Persona")
+st.pyplot(fig)
 
 # Section 5: Anomalies
 st.subheader("5. Highlight Recent Anomalies")
@@ -120,9 +120,8 @@ biggest_drop = compare['change_%'].idxmin()
 col7.metric("Biggest Increase", f"{biggest_increase} ({compare['change_%'].max():.2f}%)")
 col8.metric("Biggest Drop", f"{biggest_drop} ({compare['change_%'].min():.2f}%)")
 
-
 # ـــ
 st.markdown("---")
-st.caption("Built with ❤️ using Streamlit and Plotly")
+st.caption("Contact me: bellabahramii@gmail.com")
 
 
