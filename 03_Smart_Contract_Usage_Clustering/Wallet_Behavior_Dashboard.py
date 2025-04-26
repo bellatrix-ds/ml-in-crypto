@@ -18,7 +18,7 @@ st.title("🔋 OnChain Pulse: Wallet Activity Tracker")
 # Load data
 
 # Base URL for files
-base_url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/main/03_Smart_Contract_Usage_Clustering/splits/"
+base_url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/splits/"
 
 csv_urls = [f"{base_url}split_part_{i}.csv" for i in range(1, 21)]  # 1 تا 20
 
