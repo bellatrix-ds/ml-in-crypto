@@ -16,7 +16,7 @@ st.set_page_config(page_title="OnChain Pulse: Wallet Activity Tracker", layout="
 st.title("🔋 OnChain Pulse: Wallet Activity Tracker")
 
 # Load data
-url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/data.csv"
+url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/data_all.csv"
 data = pd.read_csv(url, on_bad_lines='skip')  
 data["BLOCK_TIMESTAMP"] = pd.to_datetime(data["BLOCK_TIMESTAMP"], errors="coerce")
 data = data.dropna(subset=["BLOCK_TIMESTAMP"])
