@@ -63,7 +63,6 @@ col3.dataframe(top_value[['FROM_ADDRESS', 'dominant_persona', 'VALUE']])
 top_gas = data.groupby('FROM_ADDRESS').agg({'GAS_USED':'sum', 'dominant_persona':'first'}).sort_values(by='GAS_USED', ascending=False).head(10).reset_index()
 col4.dataframe(top_gas[['FROM_ADDRESS', 'dominant_persona', 'GAS_USED']])
 
-# Section 3: Persona-Specific Deep Dive
 st.subheader("3. Persona-Specific Deep Dive")
 selected_dive = st.selectbox("Select Persona for Deep Dive", options=data['dominant_persona'].unique())
 
@@ -76,10 +75,6 @@ persona_summary = persona_data.groupby('FROM_ADDRESS').agg({
 
 avg_tx_week = persona_summary['tx_count'] / (7/7)
 avg_tx_month = persona_summary['tx_count'] / (30/7)
-avg_tx_week_rounded = round(avg_tx_week)
-avg_tx_month_rounded = round(avg_tx_month)
-st.metric(\"Avg Transactions per Week\", f\"{avg_tx_week_rounded} times/week\")
-st.metric(\"Avg Transactions per Month\", f\"{avg_tx_month_rounded} times/month\")
 
 eth_price = 3000  # replace with dynamic price if needed
 avg_gas_eth = persona_summary['GAS_USED'] / 1e9
@@ -88,6 +83,7 @@ avg_gas_usd = avg_gas_eth * eth_price
 st.metric("Avg Transactions per Week", f"{avg_tx_week:.2f}")
 st.metric("Avg Transactions per Month", f"{avg_tx_month:.2f}")
 st.metric("Avg Gas Used (ETH)", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:.2f})")
+
 
 # Section 4: Behavioral Ratios
 st.subheader("4. Behavioral Patterns")
