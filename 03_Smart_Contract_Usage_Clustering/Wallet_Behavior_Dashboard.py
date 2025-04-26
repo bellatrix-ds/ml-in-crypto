@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.set_page_config(page_title="Wallet Behavior Dashboard", layout="wide")
+st.set_page_config(page_title="OnChain Pulse: Wallet Activity Tracker", layout="wide")
 
 # Load data
 url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/data.csv"
