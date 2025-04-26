@@ -54,6 +54,7 @@ value_gas = data.groupby([pd.Grouper(key='BLOCK_TIMESTAMP', freq='W'), 'dominant
 fig2 = px.line(value_gas, x='BLOCK_TIMESTAMP', y='VALUE', color='dominant_persona', title="Average VALUE Over Time")
 col2.plotly_chart(fig2, use_container_width=True)
 
+
 # Section 2: Top Wallets
 st.subheader("2. Top Wallets by Activity")
 col3, col4 = st.columns(2)
@@ -64,41 +65,27 @@ col3.dataframe(top_value[['FROM_ADDRESS', 'dominant_persona', 'VALUE']])
 top_gas = data.groupby('FROM_ADDRESS').agg({'GAS_USED':'sum', 'dominant_persona':'first'}).sort_values(by='GAS_USED', ascending=False).head(10).reset_index()
 col4.dataframe(top_gas[['FROM_ADDRESS', 'dominant_persona', 'GAS_USED']])
 
-
 # Section 3: Persona-Specific Deep Dive
 st.subheader("3. Persona-Specific Deep Dive")
 selected_dive = st.selectbox("Select Persona for Deep Dive", options=data['dominant_persona'].unique())
 
 persona_data = data[data['dominant_persona'] == selected_dive]
 persona_summary = persona_data.groupby('FROM_ADDRESS').agg({
-    'VALUE': 'mean',
-    'GAS_USED': 'mean',
-    'FROM_ADDRESS': 'count'
-}).rename(columns={'FROM_ADDRESS': 'tx_count'}).mean()
+    'VALUE':'mean',
+    'GAS_USED':'mean',
+    'FROM_ADDRESS':'count'
+}).rename(columns={'FROM_ADDRESS':'tx_count'}).mean()
 
-# Calculate transactions per week and month
-avg_tx_week = persona_summary['tx_count'] / (7/7)  # really just persona_summary['tx_count']
+avg_tx_week = persona_summary['tx_count'] / (7/7)
 avg_tx_month = persona_summary['tx_count'] / (30/7)
 
-# Round smartly
-avg_tx_week_rounded = round(avg_tx_week)
-avg_tx_month_rounded = round(avg_tx_month)
-
-# Smart pluralization
-week_text = "time" if avg_tx_week_rounded == 1 else "times"
-month_text = "time" if avg_tx_month_rounded == 1 else "times"
-
-# Calculate Gas Usage
-eth_price = 3000  # (replace this if you want to fetch live ETH price later)
+eth_price = 3000  # replace with dynamic price if needed
 avg_gas_eth = persona_summary['GAS_USED'] / 1e9
 avg_gas_usd = avg_gas_eth * eth_price
 
-# Display
-col1, col2, col3 = st.columns(3)
-
-col1.metric("Avg Transactions per Week", f"{avg_tx_week_rounded} {week_text}/week")
-col2.metric("Avg Transactions per Month", f"{avg_tx_month_rounded} {month_text}/month")
-col3.metric("Avg Gas Used", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:,.2f})")
+st.metric("Avg Transactions per Week", f"{avg_tx_week:.2f}")
+st.metric("Avg Transactions per Month", f"{avg_tx_month:.2f}")
+st.metric("Avg Gas Used (ETH)", f"{avg_gas_eth:.6f} ETH (~${avg_gas_usd:.2f})")
 
 # Section 4: Behavioral Ratios
 st.subheader("4. Behavioral Patterns")
