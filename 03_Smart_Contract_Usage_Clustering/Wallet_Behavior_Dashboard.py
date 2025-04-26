@@ -20,10 +20,10 @@ st.title("🔋 OnChain Pulse: Wallet Activity Tracker")
 # Base URL for files
 base_url = "https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Smart_Contract_Usage_Clustering/"
 
-csv_urls = [f"{base_url}split_part_{i}.csv" for i in range(1, 21)]  # 1 تا 20
+csv_urls = [f"{base_url}split_part_{i}.csv" for i in range(1, 21)]  
 
 # خوندن همه فایل‌ها
-dataframes = [pd.read_csv(url, on_bad_lines='skip', parse_dates=['BLOCK_TIMESTAMP']) for url in csv_urls]
+dataframes = [pd.read_csv(url, on_bad_lines='skip') for url in csv_urls]
 
 # چسباندن همه به هم
 data = pd.concat(dataframes, ignore_index=True)
