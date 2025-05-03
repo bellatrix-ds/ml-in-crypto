@@ -4,7 +4,7 @@
 import streamlit as st
 import pandas as pd
 
-df = pd.read_csv("df_final.csv")
+df = pd.read_csv("df_final.csv",on_bad_lines='skip')
 st.title("📊 Ethereum Wallet Dashboard")
 
 #filter
