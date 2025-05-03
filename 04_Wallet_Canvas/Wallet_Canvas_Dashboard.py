@@ -4,11 +4,13 @@
 import streamlit as st
 import pandas as pd
 
-df = pd.read_csv("df_final.csv",on_bad_lines='skip')
+df = pd.read_csv("df_final.csv")
+
 st.title("📊 Ethereum Wallet Dashboard")
 
 #filter
 wallet = st.selectbox("Select Wallet Address", df['wallet_address'])
+
 wallet_data = df[df['wallet_address'] == wallet].iloc[0]
 
 # part1: Basic Wallet Information
