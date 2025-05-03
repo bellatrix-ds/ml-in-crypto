@@ -8,31 +8,27 @@ df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/re
 
 st.title("📊 Ethereum Wallet Dashboard")
 
-# Select wallet address
-wallet_list = df["wallet_address"].unique().tolist()
-wallet_address = st.selectbox("Select Wallet Address", wallet_list)
 
-# Filter the selected wallet
-wallet_data = df[df["wallet_address"] == wallet_address].iloc[0]
+wallet = st.selectbox("Select Wallet Address", df['wallet_address'])
+wallet_data = df[df['wallet_address'] == wallet].iloc[0]
+
 
 col1, col2 = st.columns(2)
-# part1: Basic Wallet Information
 with col1:
     st.subheader("🟡 Basic Wallet Information")
-    st.write("**Wallet Address:**", wallet_address)
-    st.write("**💰 ETH Balance:**", eth_balance)
-    st.write("**📦 Total Transactions (All Time):**", f"{tx_count:,}")
-    st.write("**📆 Transactions in Last 3 Months:**", f"{total_tx:,}")
-    st.write("**🕒 First TX:**", first_tx)
-    st.write("**🕒 Last TX:**", last_tx)
-# part 2: Transaction Behavior
+    st.write(f"**Wallet Address:** `{wallet_data['wallet_address']}`")
+    st.write("💰 ETH Balance", f"{wallet_data['eth']} ETH")
+    st.write("📦 Total Transactions (All Time)", wallet_data['tx_count'])
+    st.write("📆 Transactions in Last 3 Months", wallet_data['total_tx'])
+    st.write(f"**🕒 First Transaction:** {wallet_data['first_tx']}")
+    st.write(f"**🕒 Last Transaction:** {wallet_data['last_tx']}")
 with col2:
     st.subheader("🟡 Transaction Behavior")
-    st.write("**📈 Avg TX Value (ETH):**", round(avg_tx_value, 4))
-    st.write("**💵 Avg TX Value (USD):**", f"${avg_value_usd:,.2f}")
-    st.write("**🗓️ Avg TX per Day:**", round(tx_per_day))
-    st.write("**📅 Avg TX per Month:**", round(tx_per_month))
-    st.write("**⏳ Avg Time Gap (days):**", avg_time_gap_days)
+    st.write("**📈 Avg TX Value (ETH):**", f"{round(wallet_data['avg_tx_value']):.6f}")
+    st.write("**💵 Avg TX Value (USD):**", f"${round(wallet_data['avg_value_usd']):.2f}")
+    st.write("**🗓️ Avg TX per Day:**", f"{round(wallet_data['tx_per_day']):.2f}")
+    st.write("**📅 Avg TX per Month:**", f"{round(wallet_data['tx_per_month']):.2f}")
+    st.write("**⏳ Avg Time Gap (days):**", f"{wallet_data['avg_time_gap_days']}")
 
 # ـــ
 st.markdown("---")
