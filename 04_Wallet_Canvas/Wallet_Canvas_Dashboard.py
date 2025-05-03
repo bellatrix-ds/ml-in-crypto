@@ -8,11 +8,12 @@ df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/re
 
 st.title("📊 Ethereum Wallet Dashboard")
 
-#filter
-wallet = st.selectbox("Select Wallet Address", df['wallet_address'])
+# Select wallet address
+wallet_list = df["wallet_address"].unique().tolist()
+wallet_address = st.selectbox("Select Wallet Address", wallet_list)
 
-wallet_data = df[df['wallet_address'] == wallet].iloc[0]
-
+# Filter the selected wallet
+wallet_data = df[df["wallet_address"] == wallet_address].iloc[0]
 
 col1, col2 = st.columns(2)
 # part1: Basic Wallet Information
