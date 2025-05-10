@@ -36,7 +36,36 @@ tx_activity_rate = round(wallet_data['total_tx'] / wallet_data['tx_count'] * 100
 st.write("📊 **Recent Activity Rate (Last 3mo vs All):**", f"{tx_activity_rate}%")
 
 
+# part 3
+import altair as alt
 
+filtered_df3 = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/04_Wallet_Canvas/part3_data.csv')
+st.header("📈 Wallet Activity Overview")
+
+# تبدیل ماه به نوع datetime برای نمودار دقیق‌تر
+filtered_df3['month'] = pd.to_datetime(filtered_df3['month'])
+df_wallet = filtered_df3[filtered_df3['wallet_address'] == wallet]
+
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("🔁 Monthly Transaction Count")
+    tx_chart = alt.Chart(filtered_df3).mark_line(point=True).encode(
+        x=alt.X('month:T', title='Month'),
+        y=alt.Y('tx_count:Q', title='Transactions'),
+        tooltip=['month:T', 'tx_count']
+    ).properties(width=350, height=300)
+    st.altair_chart(tx_chart, use_container_width=True)
+
+with col2:
+    st.subheader("💰 ETH Balance Over Time")
+    balance_chart = alt.Chart(filtered_df3).mark_line(point=True).encode(
+        x=alt.X('month:T', title='Month'),
+        y=alt.Y('eth_balance:Q', title='ETH Balance'),
+        tooltip=['month:T', 'eth_balance']
+    ).properties(width=350, height=300)
+    st.altair_chart(balance_chart, use_container_width=True)
 
 # ـــ
 st.markdown("---")
