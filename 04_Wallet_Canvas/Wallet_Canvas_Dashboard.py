@@ -3,6 +3,7 @@
 
 import streamlit as st
 import pandas as pd
+from datetime import datetime
 
 df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/04_Wallet_Canvas/df_final.csv',on_bad_lines='skip')
 
