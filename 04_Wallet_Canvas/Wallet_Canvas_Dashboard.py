@@ -71,6 +71,8 @@ st.header("📜 Top Contract Interactions")
 
 # wallet_contracts = df_contracts[df_contracts['wallet_address'] == wallet.lower()]
 
+wallet_contracts = df_contracts
+
 top_contracts = (
     wallet_contracts
     .sort_values(by='tx_count', ascending=False)
@@ -94,6 +96,8 @@ df_top_wallets = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-
 st.header("🤝 Top Wallet Interactions")
 
 # wallet_interactions = df_top_wallets[df_top_wallets['wallet_address'] == wallet.lower()]
+
+wallet_interactions = df_top_wallets
 
 top_counterparties = (
     wallet_interactions
