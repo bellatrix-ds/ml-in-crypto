@@ -14,10 +14,13 @@ wallet = st.selectbox("🔎 Select a Wallet Address", df['wallet_address'])
 wallet_data = df[df['wallet_address'] == wallet].iloc[0]
 
 # Calculate wallet age
-first_tx_date = pd.to_datetime(wallet_data['first_tx'])
-today = pd.to_datetime(datetime.utcnow())
-wallet_age_days = (today - first_tx_date).days
+first_tx_date = pd.to_datetime(wallet_data['first_tx'], errors='coerce')  # ← اگر تاریخ نامعتبر باشه، NaT میشه
+today = pd.Timestamp.now()
 
+if pd.isna(first_tx_date):
+    wallet_age_days = "N/A"
+else:
+    wallet_age_days = (today - first_tx_date).days
 
 # 🧾 Basic Wallet Information
 st.header("📘 Basic Wallet Information")
