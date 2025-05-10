@@ -71,7 +71,7 @@ df_contracts = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in
 
 st.header("📜 Top Contract Interactions")
 
-wallet_contracts = df_contracts[df_contracts['wallet'] == wallet.lower()]
+wallet_contracts = df_contracts[df_contracts['wallet_address'] == wallet.lower()]
 
 top_contracts = (
     wallet_contracts
