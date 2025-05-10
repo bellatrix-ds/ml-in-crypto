@@ -63,6 +63,32 @@ balance_chart = alt.Chart(df_wallet).mark_line(point=True).encode(
     tooltip=['month:T', 'eth_balance']
 ).properties(height=300)
 st.altair_chart(balance_chart, use_container_width=True)
+
+
+# 📜 Top Contract Interactions
+
+df_contracts = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/04_Wallet_Canvas/df4_b_data.csv',on_bad_lines='skip')
+
+st.header("📜 Top Contract Interactions")
+
+wallet_contracts = df_contracts[df_contracts['wallet'] == wallet.lower()]
+
+top_contracts = (
+    wallet_contracts
+    .sort_values(by='tx_count', ascending=False)
+    .head(10)
+    .copy()
+)
+
+if 'contract_name' in top_contracts.columns:
+    top_contracts = top_contracts[['contract', 'contract_name', 'tx_count']]
+else:
+    top_contracts = top_contracts[['contract', 'tx_count']]
+
+st.dataframe(top_contracts, use_container_width=True)
+
+
+
 # ـــ
 st.markdown("---")
 st.caption("📧 Contact me: bellabahramii@gmail.com")
