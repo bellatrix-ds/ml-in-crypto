@@ -14,13 +14,17 @@ wallet = st.selectbox("🔎 Select a Wallet Address", df['wallet_address'])
 wallet_data = df[df['wallet_address'] == wallet].iloc[0]
 
 # Calculate wallet age
-first_tx_date = pd.to_datetime(wallet_data['first_tx'], errors='coerce')  # ← اگر تاریخ نامعتبر باشه، NaT میشه
+first_tx_raw = wallet_data['first_tx']
+first_tx_date = pd.to_datetime(first_tx_raw, errors='coerce')  # تبدیل به NaT اگر قابل تبدیل نباشه
 today = pd.Timestamp.now()
 
 if pd.isna(first_tx_date):
-    wallet_age_days = "N/A"
+    wallet_age_days = "Unknown"
 else:
     wallet_age_days = (today - first_tx_date).days
+
+
+
 
 # 🧾 Basic Wallet Information
 st.header("📘 Basic Wallet Information")
@@ -31,7 +35,8 @@ st.write("📆 **Transactions in Last 3 Months:**", wallet_data['total_tx'])
 st.write(f"🕒 **First Transaction:** {wallet_data['first_tx']}")
 st.write(f"🕓 **Last Transaction:** {wallet_data['last_tx']}")
 st.write(f"📈 **Wallet Age:** {wallet_age_days} days")
-
+st.write("✅ first_tx_raw:", first_tx_raw)
+st.write("✅ first_tx_date (parsed):", first_tx_date)
 
 # 🔁 Transaction Behavior
 st.header("📊 Transaction Behavior")
