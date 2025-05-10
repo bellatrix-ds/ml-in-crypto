@@ -42,6 +42,7 @@ filtered_df3 = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in
 st.header("📈 Wallet Activity Overview")
 # filtered_df3['month'] = pd.to_datetime(filtered_df3['month'])
 # df_wallet = filtered_df3[filtered_df3['wallet_address'] == wallet]
+df_wallet = filtered_df3
 
 # Monthly Transaction Count
 st.subheader("🔁 Monthly Transaction Count")
