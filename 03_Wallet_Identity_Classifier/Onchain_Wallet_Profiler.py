@@ -69,8 +69,6 @@ st.pyplot(fig1)
 
 
 
-df2["BLOCK_TIMESTAMP"] = pd.to_datetime(df2["BLOCK_TIMESTAMP"])
-df2["month"] = df2["BLOCK_TIMESTAMP"].dt.to_period("M").astype(str)  # فقط ماه
 
 # انتخاب کیف پول و کتگوری
 selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
