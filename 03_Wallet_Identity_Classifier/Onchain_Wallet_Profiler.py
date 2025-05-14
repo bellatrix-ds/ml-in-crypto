@@ -173,10 +173,55 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-# ____________
+
 st.markdown("---")
+# ----------------- GAS USED -----------------
+df_gas = pd.read_csv(
+    'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart_gas.csv',
+    on_bad_lines='skip')
 
 
+wallet_gas = df_gas[df_gas["FROM_ADDRESS"] == selected_wallet]
+category_gas = df_gas[df_gas["TOP_PROFILE"] == selected_category]
+
+wallet_gas_grouped = wallet_gas.groupby("MONTH")["WALLET_GAS_USED"].sum().reset_index()
+category_gas_grouped = category_gas.groupby("MONTH")["CATEGORY_GAS_MEAN"].mean().reset_index()
+
+merged_gas = pd.merge(wallet_gas_grouped, category_gas_grouped, on="MONTH", how="outer").fillna(0)
+merged_gas = merged_gas.sort_values("MONTH")
+merged_gas["MONTH_LABEL"] = merged_gas["MONTH"].dt.strftime('%b-%Y')
+
+st.markdown("---")
+fig_gas = go.Figure()
+
+fig_gas.add_trace(go.Scatter(
+    x=merged_gas["MONTH_LABEL"],
+    y=merged_gas["WALLET_GAS_USED"],
+    mode="lines+markers",
+    name="Wallet Gas Used",
+    line=dict(color="blue", width=2)
+))
+
+fig_gas.add_trace(go.Scatter(
+    x=merged_gas["MONTH_LABEL"],
+    y=merged_gas["CATEGORY_GAS_MEAN"],
+    mode="lines+markers",
+    name=f"{selected_category} Category",
+    line=dict(color="orange", width=2, dash="dash")
+))
+
+fig_gas.update_layout(
+    title="⛽ Wallet Gas Used",
+    xaxis_title="Month",
+    yaxis_title="Gas Used",
+    hovermode="x unified",
+    height=500
+)
+
+st.plotly_chart(fig_gas, use_container_width=True)
+
+
+# ـــــــــ
 weekday_activity = df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/weekday_activity.csv', on_bad_lines='skip')
 hourly_activity = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/hourly_activity.csv',on_bad_lines='skip')
 # Clean and ensure correct order
