@@ -18,11 +18,31 @@ df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/re
 # Streamlit App
 st.title("🧠 Onchain Wallet Profiler")
 
-selected_wallet = st.selectbox("Select a wallet address", df["FROM_ADDRESS"].unique())
+category_emojis = {
+    "Dex Trader": "📈",
+    "Protocol Dev": "🛠️",
+    "Yield Farmer": "🌾",
+    "Nft Collector": "🖼️",
+    "Oracle User": "🔮",
+    "Staker Validator": "🗳️",
+    "Defi Farmer": "👨‍🌾",
+    "Bot": "🤖",
+    "Bridge User": "🌉",
+    "Airdrop Hunter": "🎯"
+}
+selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
 
-category = df.loc[df["FROM_ADDRESS"] == selected_wallet, "TOP_PROFILE"].values[0]
+selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
+emoji = category_emojis.get(selected_category, "❓")
+st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+def highlight_selected(row):
+    return ['background-color: lightgreen' if row['TOP_PROFILE'] == selected_category else '' for _ in row]
 
-st.markdown(f"### 🏷️ Category: `{category}`")
+st.markdown("### 📋 All Categories")
+df_display = df[["FROM_ADDRESS", "TOP_PROFILE"]]
+st.dataframe(df_display.style.apply(highlight_selected, axis=1))
+
+
 # ـــ
 
 
