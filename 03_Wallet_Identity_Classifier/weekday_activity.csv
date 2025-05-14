@@ -1,0 +1,46 @@
+,TOP_PROFILE,WEEKDAY,UNIQUE_WALLETS
+0,Bot,Friday,4
+1,Bot,Saturday,5
+2,Bot,Sunday,2
+3,Bot,Thursday,5
+4,Bot,Wednesday,5
+5,Bridge User,Friday,8
+6,Bridge User,Saturday,8
+7,Bridge User,Sunday,5
+8,Bridge User,Thursday,8
+9,Bridge User,Wednesday,8
+10,Defi Farmer,Friday,18
+11,Defi Farmer,Saturday,20
+12,Defi Farmer,Sunday,15
+13,Defi Farmer,Thursday,22
+14,Defi Farmer,Wednesday,22
+15,Dex Trader,Friday,1646
+16,Dex Trader,Saturday,2061
+17,Dex Trader,Sunday,1618
+18,Dex Trader,Thursday,2210
+19,Dex Trader,Wednesday,2259
+20,Nft Collector,Friday,26
+21,Nft Collector,Saturday,50
+22,Nft Collector,Sunday,50
+23,Nft Collector,Thursday,43
+24,Nft Collector,Wednesday,47
+25,Oracle User,Friday,49
+26,Oracle User,Saturday,58
+27,Oracle User,Sunday,45
+28,Oracle User,Thursday,73
+29,Oracle User,Wednesday,65
+30,Protocol Dev,Friday,36
+31,Protocol Dev,Saturday,42
+32,Protocol Dev,Sunday,36
+33,Protocol Dev,Thursday,43
+34,Protocol Dev,Wednesday,46
+35,Staker Validator,Friday,6
+36,Staker Validator,Saturday,6
+37,Staker Validator,Sunday,2
+38,Staker Validator,Thursday,6
+39,Staker Validator,Wednesday,5
+40,Yield Farmer,Friday,78
+41,Yield Farmer,Saturday,88
+42,Yield Farmer,Sunday,75
+43,Yield Farmer,Thursday,99
+44,Yield Farmer,Wednesday,91

@@ -1,0 +1,217 @@
+,TOP_PROFILE,HOUR,UNIQUE_WALLETS
+0,Bot,0,5
+1,Bot,1,5
+2,Bot,2,5
+3,Bot,3,5
+4,Bot,4,5
+5,Bot,5,5
+6,Bot,6,3
+7,Bot,7,5
+8,Bot,8,5
+9,Bot,9,5
+10,Bot,10,5
+11,Bot,11,4
+12,Bot,12,5
+13,Bot,13,4
+14,Bot,14,3
+15,Bot,15,5
+16,Bot,16,5
+17,Bot,17,5
+18,Bot,18,4
+19,Bot,19,5
+20,Bot,20,4
+21,Bot,21,5
+22,Bot,22,4
+23,Bot,23,5
+24,Bridge User,0,8
+25,Bridge User,1,7
+26,Bridge User,2,6
+27,Bridge User,3,8
+28,Bridge User,4,8
+29,Bridge User,5,8
+30,Bridge User,6,8
+31,Bridge User,7,8
+32,Bridge User,8,8
+33,Bridge User,9,8
+34,Bridge User,10,7
+35,Bridge User,11,8
+36,Bridge User,12,8
+37,Bridge User,13,8
+38,Bridge User,14,8
+39,Bridge User,15,7
+40,Bridge User,16,7
+41,Bridge User,17,8
+42,Bridge User,18,7
+43,Bridge User,19,7
+44,Bridge User,20,8
+45,Bridge User,21,8
+46,Bridge User,22,8
+47,Bridge User,23,6
+48,Defi Farmer,0,18
+49,Defi Farmer,1,20
+50,Defi Farmer,2,24
+51,Defi Farmer,3,23
+52,Defi Farmer,4,23
+53,Defi Farmer,5,21
+54,Defi Farmer,6,18
+55,Defi Farmer,7,24
+56,Defi Farmer,8,24
+57,Defi Farmer,9,23
+58,Defi Farmer,10,25
+59,Defi Farmer,11,17
+60,Defi Farmer,12,22
+61,Defi Farmer,13,21
+62,Defi Farmer,14,21
+63,Defi Farmer,15,23
+64,Defi Farmer,16,23
+65,Defi Farmer,17,22
+66,Defi Farmer,18,21
+67,Defi Farmer,19,26
+68,Defi Farmer,20,22
+69,Defi Farmer,21,22
+70,Defi Farmer,22,22
+71,Defi Farmer,23,25
+72,Dex Trader,0,2035
+73,Dex Trader,1,1952
+74,Dex Trader,2,2195
+75,Dex Trader,3,2181
+76,Dex Trader,4,2161
+77,Dex Trader,5,2125
+78,Dex Trader,6,2088
+79,Dex Trader,7,2211
+80,Dex Trader,8,2215
+81,Dex Trader,9,2186
+82,Dex Trader,10,2142
+83,Dex Trader,11,1950
+84,Dex Trader,12,2282
+85,Dex Trader,13,2185
+86,Dex Trader,14,2270
+87,Dex Trader,15,2276
+88,Dex Trader,16,2216
+89,Dex Trader,17,2186
+90,Dex Trader,18,2241
+91,Dex Trader,19,2244
+92,Dex Trader,20,2283
+93,Dex Trader,21,2130
+94,Dex Trader,22,2233
+95,Dex Trader,23,2188
+96,Nft Collector,0,44
+97,Nft Collector,1,43
+98,Nft Collector,2,46
+99,Nft Collector,3,44
+100,Nft Collector,4,43
+101,Nft Collector,5,43
+102,Nft Collector,6,38
+103,Nft Collector,7,50
+104,Nft Collector,8,36
+105,Nft Collector,9,37
+106,Nft Collector,10,37
+107,Nft Collector,11,36
+108,Nft Collector,12,43
+109,Nft Collector,13,40
+110,Nft Collector,14,43
+111,Nft Collector,15,43
+112,Nft Collector,16,47
+113,Nft Collector,17,41
+114,Nft Collector,18,48
+115,Nft Collector,19,45
+116,Nft Collector,20,42
+117,Nft Collector,21,46
+118,Nft Collector,22,53
+119,Nft Collector,23,44
+120,Oracle User,0,56
+121,Oracle User,1,56
+122,Oracle User,2,59
+123,Oracle User,3,58
+124,Oracle User,4,63
+125,Oracle User,5,62
+126,Oracle User,6,60
+127,Oracle User,7,66
+128,Oracle User,8,57
+129,Oracle User,9,59
+130,Oracle User,10,61
+131,Oracle User,11,50
+132,Oracle User,12,71
+133,Oracle User,13,68
+134,Oracle User,14,63
+135,Oracle User,15,59
+136,Oracle User,16,66
+137,Oracle User,17,60
+138,Oracle User,18,62
+139,Oracle User,19,62
+140,Oracle User,20,66
+141,Oracle User,21,62
+142,Oracle User,22,64
+143,Oracle User,23,63
+144,Protocol Dev,0,43
+145,Protocol Dev,1,44
+146,Protocol Dev,2,45
+147,Protocol Dev,3,43
+148,Protocol Dev,4,43
+149,Protocol Dev,5,45
+150,Protocol Dev,6,43
+151,Protocol Dev,7,42
+152,Protocol Dev,8,46
+153,Protocol Dev,9,42
+154,Protocol Dev,10,37
+155,Protocol Dev,11,36
+156,Protocol Dev,12,43
+157,Protocol Dev,13,45
+158,Protocol Dev,14,42
+159,Protocol Dev,15,41
+160,Protocol Dev,16,42
+161,Protocol Dev,17,34
+162,Protocol Dev,18,35
+163,Protocol Dev,19,48
+164,Protocol Dev,20,43
+165,Protocol Dev,21,42
+166,Protocol Dev,22,43
+167,Protocol Dev,23,42
+168,Staker Validator,0,5
+169,Staker Validator,1,5
+170,Staker Validator,2,5
+171,Staker Validator,3,5
+172,Staker Validator,4,5
+173,Staker Validator,5,5
+174,Staker Validator,6,5
+175,Staker Validator,7,5
+176,Staker Validator,8,5
+177,Staker Validator,9,5
+178,Staker Validator,10,6
+179,Staker Validator,11,5
+180,Staker Validator,12,5
+181,Staker Validator,13,5
+182,Staker Validator,14,5
+183,Staker Validator,15,5
+184,Staker Validator,16,6
+185,Staker Validator,17,5
+186,Staker Validator,18,5
+187,Staker Validator,19,6
+188,Staker Validator,20,5
+189,Staker Validator,21,5
+190,Staker Validator,22,5
+191,Staker Validator,23,5
+192,Yield Farmer,0,85
+193,Yield Farmer,1,80
+194,Yield Farmer,2,88
+195,Yield Farmer,3,85
+196,Yield Farmer,4,93
+197,Yield Farmer,5,84
+198,Yield Farmer,6,90
+199,Yield Farmer,7,92
+200,Yield Farmer,8,96
+201,Yield Farmer,9,88
+202,Yield Farmer,10,83
+203,Yield Farmer,11,73
+204,Yield Farmer,12,90
+205,Yield Farmer,13,80
+206,Yield Farmer,14,88
+207,Yield Farmer,15,83
+208,Yield Farmer,16,80
+209,Yield Farmer,17,78
+210,Yield Farmer,18,88
+211,Yield Farmer,19,91
+212,Yield Farmer,20,84
+213,Yield Farmer,21,87
+214,Yield Farmer,22,90
+215,Yield Farmer,23,81
