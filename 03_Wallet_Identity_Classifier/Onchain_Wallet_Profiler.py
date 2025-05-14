@@ -69,31 +69,21 @@ st.pyplot(fig1)
 
 
 
-# Line chart: daily activity
-wallet_df = df2[df2['FROM_ADDRESS'] == selected_wallet].copy()
-wallet_df['DATE'] = wallet_df['BLOCK_TIMESTAMP'].dt.date
-wallet_counts = wallet_df.groupby('DATE')['TX_HASH'].count().reset_index(name='wallet_tx_count')
+# Line chart: Monthly TX count for selected wallet and category
+df2["BLOCK_TIMESTAMP"] = pd.to_datetime(df2["BLOCK_TIMESTAMP"])
+df2["month"] = df2["BLOCK_TIMESTAMP"].dt.to_period("M").astype(str)
 
-same_cat_wallets = df[df['TOP_PROFILE'] == selected_category]['FROM_ADDRESS'].unique()
-same_cat_df = df2[df2['FROM_ADDRESS'].isin(same_cat_wallets)].copy()
-same_cat_df['DATE'] = same_cat_df['BLOCK_TIMESTAMP'].dt.date
-cat_counts = same_cat_df.groupby('DATE')['TX_HASH'].count().reset_index(name='category_tx_count')
+wallet_monthly = df2[df2["FROM_ADDRESS"] == selected_wallet].groupby("month")["TX_HASH"].count()
+category_wallets = df[df["TOP_PROFILE"] == selected_category]["FROM_ADDRESS"].unique()
+category_monthly = df2[df2["FROM_ADDRESS"].isin(category_wallets)].groupby("month")["TX_HASH"].count()
 
-# Merge for chart
-tx_compare = pd.merge(wallet_counts, cat_counts, on='DATE', how='outer').fillna(0)
+df_monthly = pd.DataFrame({
+    "Selected Wallet": wallet_monthly,
+    f"All {selected_category}s": category_monthly
+}).fillna(0)
 
-# Plot
-fig2, ax2 = plt.subplots(figsize=(10, 4))
-sns.lineplot(data=tx_compare, x='DATE', y='wallet_tx_count', label='Selected Wallet', ax=ax2)
-sns.lineplot(data=tx_compare, x='DATE', y='category_tx_count', label=f'All {selected_category} Wallets', ax=ax2)
-ax2.set_title("⏰ Daily Transaction Count")
-ax2.set_ylabel("Transactions")
-ax2.set_xlabel("Date")
-ax2.tick_params(axis='x', rotation=45)
-ax2.legend()
-st.pyplot(fig2)
-
-
+st.markdown("### 📆 Monthly Transaction Activity")
+st.line_chart(df_monthly)
 # ـــ
 
 
