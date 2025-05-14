@@ -99,29 +99,27 @@ col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
 st.subheader("📊 Category Metrics Comparison")
 
-highlight_color = "#636EFA"  # آبی
-default_color = "#DDDDDD"    # خاکستری
+highlight_color = "#2CA02C"  
+default_color = "#DDDDDD"  
 
 metrics_df["COLOR"] = metrics_df["TOP_PROFILE"].apply(
     lambda x: highlight_color if x == selected_category else default_color
 )
 
 # ----------------------
-# تابع رسم یک نمودار
 def create_bar_chart(y_col, title):
     fig = px.bar(
         metrics_df,
         x="TOP_PROFILE",
         y=y_col,
         color="COLOR",
-        color_discrete_map="identity",  # استفاده مستقیم از مقادیر ستون COLOR
+        color_discrete_map="identity",  
         title=title
     )
     fig.update_layout(showlegend=False)
     return fig
 
 # ----------------------
-# رسم در دو ردیف دوتایی
 col1, col2 = st.columns(2)
 with col1:
     st.plotly_chart(create_bar_chart("avg_tx_per_month", "Avg Tx per Month"), use_container_width=True)
