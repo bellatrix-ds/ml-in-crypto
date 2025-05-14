@@ -74,7 +74,7 @@ metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
-st.subheader("📌 Summary Metrics for Selected Category")
+st.subheader("📌 Summary Category")
 
 st.markdown("""
 These metrics summarize the **behavior of wallets in the selected category** based on their onchain activity.
@@ -95,9 +95,72 @@ col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_c
 col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
+st.subheader("📊 Category Metrics Comparison")
+
+# تعریف رنگ‌ها: فقط دسته انتخاب‌شده رنگی
+def colorize(df, selected_category):
+    return [
+        "#636EFA" if cat == selected_category else "#DDDDDD"
+        for cat in df["TOP_PROFILE"]
+    ]
+
+# ---------- Chart 1: Avg Tx per Month ----------
+fig1 = px.bar(
+    metrics_df,
+    x="TOP_PROFILE",
+    y="avg_tx_per_month",
+    title="Avg Tx per Month",
+    color_discrete_sequence=colorize(metrics_df, selected_category)
+)
+fig1.update_layout(showlegend=False)
+
+# ---------- Chart 2: Unique Function Count ----------
+fig2 = px.bar(
+    metrics_df,
+    x="TOP_PROFILE",
+    y="unique_function_count",
+    title="Unique Function Count",
+    color_discrete_sequence=colorize(metrics_df, selected_category)
+)
+fig2.update_layout(showlegend=False)
+
+# ---------- Chart 3: Unique Contract Count ----------
+fig3 = px.bar(
+    metrics_df,
+    x="TOP_PROFILE",
+    y="unique_contract_count",
+    title="Unique Contract Count",
+    color_discrete_sequence=colorize(metrics_df, selected_category)
+)
+fig3.update_layout(showlegend=False)
+
+# ---------- Chart 4: Avg Gas Used ----------
+fig4 = px.bar(
+    metrics_df,
+    x="TOP_PROFILE",
+    y="avg_gas_used",
+    title="Avg Gas Used",
+    color_discrete_sequence=colorize(metrics_df, selected_category)
+)
+fig4.update_layout(showlegend=False)
+
+# نمایش به صورت دو به دو
+col1, col2 = st.columns(2)
+with col1:
+    st.plotly_chart(fig1, use_container_width=True)
+with col2:
+    st.plotly_chart(fig2, use_container_width=True)
+
+col3, col4 = st.columns(2)
+with col3:
+    st.plotly_chart(fig3, use_container_width=True)
+with col4:
+    st.plotly_chart(fig4, use_container_width=True)
+
 
 st.markdown("---")
-# --------------------------------------
+
+
 # Line chart data preparation
 
 # Data for selected wallet
