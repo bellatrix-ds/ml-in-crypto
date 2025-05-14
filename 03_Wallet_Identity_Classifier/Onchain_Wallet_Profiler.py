@@ -31,7 +31,7 @@ category_distribution = {
 }
 
 # Load df2 (your trace dataset)
-df2 = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/04_df_row.csv',
+df2 = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart.csv',
                   on_bad_lines='skip')
 df2['BLOCK_TIMESTAMP'] = pd.to_datetime(df2['BLOCK_TIMESTAMP'], errors='coerce')
 df2.dropna(subset=['BLOCK_TIMESTAMP'], inplace=True)
@@ -69,32 +69,50 @@ st.pyplot(fig1)
 
 
 
+# Line chart
+df2['MONTH'] = df2['BLOCK_TIMESTAMP'].dt.to_period('M').dt.to_timestamp()
+
+# Filter by selected wallet
+wallet_df = df2[df2["FROM_ADDRESS"] == selected_wallet]
+
+# Group by MONTH and count transactions
+tx_per_month = wallet_df.groupby("MONTH").size().reset_index(name="Transaction Count")
+
+# Optional: also count category-wise if df2 includes TOP_PROFILE column
+# If not, merge category info from df to df2
+if 'TOP_PROFILE' not in df2.columns:
+    df2 = df2.merge(df[['FROM_ADDRESS', 'TOP_PROFILE']].drop_duplicates(), on='FROM_ADDRESS', how='left')
+    wallet_df = df2[df2["FROM_ADDRESS"] == selected_wallet]
+
+# Group by MONTH and CATEGORY
+category_per_month = wallet_df.groupby(['MONTH', 'TOP_PROFILE']).size().reset_index(name='Count')
+
+# Draw line chart: total transaction count per month
+st.markdown("### 📊 Monthly Transaction Count for Selected Wallet")
+fig2, ax2 = plt.subplots(figsize=(8, 4))
+ax2.plot(tx_per_month['MONTH'], tx_per_month['Transaction Count'], marker='o')
+ax2.set_xlabel("Month")
+ax2.set_ylabel("Number of Transactions")
+ax2.set_title(f"Monthly Transactions for Wallet {selected_wallet[:6]}...")
+ax2.grid(True)
+st.pyplot(fig2)
+
+# Draw line chart: category breakdown
+st.markdown("### 📈 Category-wise Transaction Count per Month")
+fig3, ax3 = plt.subplots(figsize=(10, 5))
+for category in category_per_month['TOP_PROFILE'].unique():
+    cat_data = category_per_month[category_per_month['TOP_PROFILE'] == category]
+    ax3.plot(cat_data['MONTH'], cat_data['Count'], marker='o', label=category)
+ax3.set_xlabel("Month")
+ax3.set_ylabel("Transactions")
+ax3.set_title("Category-wise Monthly Transactions")
+ax3.legend(fontsize=6)
+ax3.grid(True)
+st.pyplot(fig3)
 
 
-# تراکنش‌های این کیف پول
-wallet_monthly = (
-    df2[df2["FROM_ADDRESS"] == selected_wallet]
-    .groupby("month")["TX_HASH"]
-    .count()
-    .rename("Selected Wallet")
-)
 
-# تراکنش‌های همه کیف پول‌های این کتگوری
-category_wallets = df[df["TOP_PROFILE"] == selected_category]["FROM_ADDRESS"].unique()
 
-category_monthly = (
-    df2[df2["FROM_ADDRESS"].isin(category_wallets)]
-    .groupby("month")["TX_HASH"]
-    .count()
-    .rename(f"All {selected_category}s")
-)
-
-# ترکیب
-df_monthly = pd.concat([wallet_monthly, category_monthly], axis=1).fillna(0)
-
-# 📊 رسم لاین چارت دقیق
-st.markdown("### 📆 Monthly Transaction Activity")
-st.line_chart(df_monthly)
 # ـــ
 
 
