@@ -63,10 +63,13 @@ category_distribution = {
     "Bridge User": 12,
     "Airdrop Hunter": 10
 }
-# Display category title and market share
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
-st.markdown(f"📊 Market Share: **{market_share}%**")
+selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
+emoji = category_emojis.get(selected_category, "❓")
+market_share = category_distribution.get(selected_category, 0)
 
+# نمایش عنوان کتگوری همراه با مارکت شیر
+st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+st.markdown(f"**📊 Market Share:** {market_share}%")
 # --------------------------------------
 # Line chart data preparation
 
