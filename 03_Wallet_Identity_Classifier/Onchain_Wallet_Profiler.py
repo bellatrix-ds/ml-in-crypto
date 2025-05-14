@@ -100,10 +100,10 @@ col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 st.subheader("📊 Category Metrics Comparison")
 
 # تعریف رنگ‌ها: فقط دسته انتخاب‌شده رنگی
-def colorize(df, selected_category):
+def colorize(selected_metrics, selected_category):
     return [
         "#636EFA" if cat == selected_category else "#DDDDDD"
-        for cat in df["TOP_PROFILE"]
+        for cat in selected_metrics["TOP_PROFILE"]
     ]
 
 # ---------- Chart 1: Avg Tx per Month ----------
