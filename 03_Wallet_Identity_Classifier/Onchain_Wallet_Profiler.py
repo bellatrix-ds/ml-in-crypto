@@ -176,22 +176,29 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("---")
 # ----------------- GAS USED -----------------
+# 📥 Load preprocessed gas usage data
 df_gas = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart_gas.csv',
-    on_bad_lines='skip')
+    on_bad_lines='skip'
+)
 
-
+# 🧠 Filter data for selected wallet & category
 wallet_gas = df_gas[df_gas["FROM_ADDRESS"] == selected_wallet]
 category_gas = df_gas[df_gas["TOP_PROFILE"] == selected_category]
 
+# 📊 Group monthly sums and means
 wallet_gas_grouped = wallet_gas.groupby("MONTH")["WALLET_GAS_USED"].sum().reset_index()
 category_gas_grouped = category_gas.groupby("MONTH")["CATEGORY_GAS_MEAN"].mean().reset_index()
 
+# 🔁 Merge both time series
 merged_gas = pd.merge(wallet_gas_grouped, category_gas_grouped, on="MONTH", how="outer").fillna(0)
 merged_gas = merged_gas.sort_values("MONTH")
-merged_gas["MONTH"] = merged_gas["MONTH"].dt.to_timestamp()
-merged_gas["MONTH_LABEL"] = merged_gas["MONTH"].dt.strftime('%b-%Y')
 
+# 🛠️ Fix month format for plotting
+merged_gas["MONTH"] = pd.to_datetime(merged_gas["MONTH"].astype(str), format="%Y-%m", errors="coerce")
+merged_gas["MONTH_LABEL"] = merged_gas["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
+
+# 📈 Line chart for Gas Used
 st.markdown("---")
 fig_gas = go.Figure()
 
