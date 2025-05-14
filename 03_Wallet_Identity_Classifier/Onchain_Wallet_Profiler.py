@@ -70,9 +70,6 @@ st.pyplot(fig1)
 
 
 
-# انتخاب کیف پول و کتگوری
-selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
-selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 
 # تراکنش‌های این کیف پول
 wallet_monthly = (
