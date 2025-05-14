@@ -16,17 +16,6 @@ df = pd.read_csv(
     on_bad_lines='skip'
 )
 
-# Load trace dataset (df2) - already monthly
-df2 = pd.read_csv(
-    'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart.csv',
-    on_bad_lines='skip'
-)
-df2['MONTH'] = pd.to_datetime(df2['MONTH'], errors='coerce')
-
-# Merge TOP_PROFILE into df2
-if 'TOP_PROFILE' not in df2.columns:
-    df2 = df2.merge(df[['FROM_ADDRESS', 'TOP_PROFILE']].drop_duplicates(), on='FROM_ADDRESS', how='left')
-
 # --------------------------------------
 # Streamlit UI
 st.title("🧠 Onchain Wallet Profiler")
@@ -76,17 +65,7 @@ metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
-st.subheader("📌 Summary Category")
-
-st.markdown("""
-These metrics summarize the **behavior of wallets in the selected category** based on their onchain activity.
-
-- `Avg Tx per Month`: how frequently wallets in this category interact onchain.
-- `Unique Function Count`: how many different smart contract functions they tend to call.
-- `Unique Contract Count`: how many unique contracts they’ve interacted with.
-- `Avg Gas Used`: an estimate of how heavy or complex their transactions are.
-""")
-
+st.subheader("📌 Category Card")
 
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
 col1, col2 = st.columns(2)
@@ -97,7 +76,7 @@ col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_c
 col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
-st.subheader("📊 Category Metrics Comparison")
+st.markdown(### 📊 Category Metrics Comparison)
 
 highlight_color = "#2CA02C"  
 default_color = "#DDDDDD"  
@@ -136,28 +115,39 @@ st.markdown("---")
 
 
 # Line chart data preparation
+# Load trace dataset (df2) - already monthly
+df2 = pd.read_csv(
+    'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart.csv',
+    on_bad_lines='skip')
 
-# Data for selected wallet
+
+df2['MONTH'] = pd.to_datetime(df2['MONTH'], errors='coerce')
+
+# 👥 Merge TOP_PROFILE into df2 if not already there
+if 'TOP_PROFILE' not in df2.columns:
+    df2 = df2.merge(df[['FROM_ADDRESS', 'TOP_PROFILE']].drop_duplicates(), on='FROM_ADDRESS', how='left')
+
+# 🧠 Filter data for selected wallet & its category
 wallet_df = df2[df2["FROM_ADDRESS"] == selected_wallet]
-wallet_counts = wallet_df.groupby("MONTH").size().reset_index(name="wallet_tx_count")
-
-# Data for category
 category_df = df2[df2["TOP_PROFILE"] == selected_category]
-category_counts = category_df.groupby("MONTH").size().reset_index(name="category_tx_count")
 
-# Merge both time series
+# 🧮 Group and rename with correct column names
+wallet_counts = wallet_df.groupby("MONTH")["WALLET_TX_COUNT"].sum().reset_index()
+category_counts = category_df.groupby("MONTH")["CATEGORY_TX_MEAN"].mean().reset_index()
+
+# 🔄 Merge and clean
 merged = pd.merge(wallet_counts, category_counts, on="MONTH", how="outer").fillna(0)
 merged = merged.sort_values("MONTH")
-merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g., Jan-2023
+merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 
-st.markdown("---")
 # --------------------------------------
-# Plotly line chart
+# 📈 Line chart
+st.markdown("---")
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
     x=merged["MONTH_LABEL"],
-    y=merged["wallet_tx_count"],
+    y=merged["WALLET_TX_COUNT"],
     mode="lines+markers",
     name="Select Wallet Transactions",
     line=dict(color="blue", width=2)
@@ -165,7 +155,7 @@ fig.add_trace(go.Scatter(
 
 fig.add_trace(go.Scatter(
     x=merged["MONTH_LABEL"],
-    y=merged["category_tx_count"],
+    y=merged["CATEGORY_TX_MEAN"],
     mode="lines+markers",
     name=f"{selected_category} Category",
     line=dict(color="orange", width=2, dash="dash")
@@ -181,6 +171,7 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
 
 # ____________
 st.markdown("---")
