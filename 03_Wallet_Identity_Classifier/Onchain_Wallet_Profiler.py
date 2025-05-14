@@ -69,19 +69,35 @@ st.pyplot(fig1)
 
 
 
-# Line chart: Monthly TX count for selected wallet and category
 df2["BLOCK_TIMESTAMP"] = pd.to_datetime(df2["BLOCK_TIMESTAMP"])
-df2["month"] = df2["BLOCK_TIMESTAMP"].dt.to_period("M").astype(str)
+df2["month"] = df2["BLOCK_TIMESTAMP"].dt.to_period("M").astype(str)  # فقط ماه
 
-wallet_monthly = df2[df2["FROM_ADDRESS"] == selected_wallet].groupby("month")["TX_HASH"].count()
+# انتخاب کیف پول و کتگوری
+selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
+selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
+
+# تراکنش‌های این کیف پول
+wallet_monthly = (
+    df2[df2["FROM_ADDRESS"] == selected_wallet]
+    .groupby("month")["TX_HASH"]
+    .count()
+    .rename("Selected Wallet")
+)
+
+# تراکنش‌های همه کیف پول‌های این کتگوری
 category_wallets = df[df["TOP_PROFILE"] == selected_category]["FROM_ADDRESS"].unique()
-category_monthly = df2[df2["FROM_ADDRESS"].isin(category_wallets)].groupby("month")["TX_HASH"].count()
 
-df_monthly = pd.DataFrame({
-    "Selected Wallet": wallet_monthly,
-    f"All {selected_category}s": category_monthly
-}).fillna(0)
+category_monthly = (
+    df2[df2["FROM_ADDRESS"].isin(category_wallets)]
+    .groupby("month")["TX_HASH"]
+    .count()
+    .rename(f"All {selected_category}s")
+)
 
+# ترکیب
+df_monthly = pd.concat([wallet_monthly, category_monthly], axis=1).fillna(0)
+
+# 📊 رسم لاین چارت دقیق
 st.markdown("### 📆 Monthly Transaction Activity")
 st.line_chart(df_monthly)
 # ـــ
