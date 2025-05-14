@@ -31,22 +31,16 @@ category_emojis = {
     "Airdrop Hunter": "🎯"
 }
 
-wallets = df["FROM_ADDRESS"].unique()
-selected_wallet = st.selectbox("🔍 Select a wallet address", wallets)
+
+# انتخاب آدرس کیف پول
+selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
+
+# پیدا کردن کتگوری انتخاب‌شده
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
+emoji = category_emojis.get(selected_category, "❓")
 
-category_table = pd.DataFrame({
-    "Category": list(category_emojis.keys()),
-    "Emoji": [category_emojis[cat] for cat in category_emojis.keys()]
-})
-
-def highlight_selected(row):
-    if row["Category"] == selected_category:
-        return ['background-color: lightgreen', 'background-color: lightgreen']
-    return ['', '']
-
-st.markdown("### 🧠 Categories")
-st.dataframe(category_table.style.apply(highlight_selected, axis=1))
+# نمایش دسته‌بندی
+st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
 
 # ـــ
 
