@@ -63,8 +63,6 @@ category_distribution = {
     "Bridge User": 12,
     "Airdrop Hunter": 10
 }
-selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
-emoji = category_emojis.get(selected_category, "❓")
 market_share = category_distribution.get(selected_category, 0)
 
 # نمایش عنوان کتگوری همراه با مارکت شیر
