@@ -30,7 +30,7 @@ st.title("🧠 Onchain Wallet Profiler")
 
 category_emojis = {
     "Dex Trader": "📈",
-    "Protocol Dev": "🖠️",
+    "Protocol Dev": "🛠️",
     "Yield Farmer": "🌾",
     "Nft Collector": "🔼️",
     "Oracle User": "🔮",
@@ -64,9 +64,6 @@ category_distribution = {
     "Airdrop Hunter": 10
 }
 market_share = category_distribution.get(selected_category, 0)
-
-# نمایش عنوان کتگوری همراه با مارکت شیر
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
 st.markdown(f"**📊 Market Share:** {market_share}%")
 # --------------------------------------
 # Line chart data preparation
@@ -105,7 +102,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title="📊 Monthly Transactions",
+    title="👛 Wallet Tx Count",
     xaxis_title="Month",
     yaxis_title="Transaction Count",
     legend_title="Legend",
