@@ -64,7 +64,8 @@ category_distribution = {
     "Airdrop Hunter": 10
 }
 market_share = category_distribution.get(selected_category, 0)
-st.markdown(f"**📊 Market Share:** {market_share}%")
+st.markdown(f"### 📊 Market Share: **{market_share}%**")
+
 # --------------------------------------
 # Line chart data preparation
 
