@@ -66,12 +66,26 @@ category_distribution = {
 }
 market_share = category_distribution.get(selected_category, 0)
 st.markdown(f"### 📊 Market Share: **{market_share}%**")
-# ______
+st.markdown("---")
+
+#‌ـــــــ
+
 metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
 st.subheader("📌 Summary Metrics for Selected Category")
+
+st.markdown("""
+These metrics summarize the **behavior of wallets in the selected category** based on their onchain activity.
+
+- `Avg Tx per Month`: how frequently wallets in this category interact onchain.
+- `Unique Function Count`: how many different smart contract functions they tend to call.
+- `Unique Contract Count`: how many unique contracts they’ve interacted with.
+- `Avg Gas Used`: an estimate of how heavy or complex their transactions are.
+""")
+
+
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
 col1, col2 = st.columns(2)
 col3, col4 = st.columns(2)
@@ -82,7 +96,7 @@ col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_c
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
 
-
+st.markdown("---")
 # --------------------------------------
 # Line chart data preparation
 
@@ -99,6 +113,7 @@ merged = pd.merge(wallet_counts, category_counts, on="MONTH", how="outer").filln
 merged = merged.sort_values("MONTH")
 merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g., Jan-2023
 
+st.markdown("---")
 # --------------------------------------
 # Plotly line chart
 fig = go.Figure()
@@ -131,6 +146,8 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 # ____________
+st.markdown("---")
+
 
 weekday_activity = df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/weekday_activity.csv', on_bad_lines='skip')
 hourly_activity = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/hourly_activity.csv',on_bad_lines='skip')
