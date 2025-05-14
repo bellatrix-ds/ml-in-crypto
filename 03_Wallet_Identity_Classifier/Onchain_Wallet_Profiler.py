@@ -50,6 +50,24 @@ emoji = category_emojis.get(selected_category, "❓")
 st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
 
 # --------------------------------------
+# Simulated market share
+category_distribution = {
+    "Dex Trader": 30,
+    "Protocol Dev": 2,
+    "Yield Farmer": 10,
+    "Nft Collector": 15,
+    "Oracle User": 5,
+    "Staker Validator": 9,
+    "Defi Farmer": 10,
+    "Bot": 2,
+    "Bridge User": 12,
+    "Airdrop Hunter": 10
+}
+# Display category title and market share
+st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+st.markdown(f"📊 Market Share: **{market_share}%**")
+
+# --------------------------------------
 # Line chart data preparation
 
 # Data for selected wallet
@@ -73,7 +91,7 @@ fig.add_trace(go.Scatter(
     x=merged["MONTH_LABEL"],
     y=merged["wallet_tx_count"],
     mode="lines+markers",
-    name="Wallet Transactions",
+    name="Select Wallet Transactions",
     line=dict(color="blue", width=2)
 ))
 
@@ -81,7 +99,7 @@ fig.add_trace(go.Scatter(
     x=merged["MONTH_LABEL"],
     y=merged["category_tx_count"],
     mode="lines+markers",
-    name=f"{selected_category} Transactions",
+    name=f"{selected_category} Category",
     line=dict(color="orange", width=2, dash="dash")
 ))
 
