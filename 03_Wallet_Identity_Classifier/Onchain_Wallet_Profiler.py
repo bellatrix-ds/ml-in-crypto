@@ -118,31 +118,36 @@ st.plotly_chart(fig, use_container_width=True)
 
 weekday_activity = df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/weekday_activity.csv', on_bad_lines='skip')
 hourly_activity = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/hourly_activity.csv',on_bad_lines='skip')
-
+# Clean and ensure correct order
 weekday_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 weekday_activity['WEEKDAY'] = pd.Categorical(weekday_activity['WEEKDAY'], categories=weekday_order, ordered=True)
 
-all_profiles = sorted(weekday_activity['TOP_PROFILE'].unique())
-selected_profile = st.selectbox("Select a wallet category (TOP_PROFILE):", all_profiles)
-filtered_weekday = weekday_activity[weekday_activity['TOP_PROFILE'] == selected_profile]
-filtered_hourly = hourly_activity[hourly_activity['TOP_PROFILE'] == selected_profile]
+# Filter data for selected category
+filtered_weekday = weekday_activity[weekday_activity['TOP_PROFILE'] == selected_category]
+filtered_hourly = hourly_activity[hourly_activity['TOP_PROFILE'] == selected_category]
+
+# Pivot for heatmaps
 pivot_weekday = filtered_weekday.pivot(index='TOP_PROFILE', columns='WEEKDAY', values='UNIQUE_WALLETS')
 pivot_hourly = filtered_hourly.pivot(index='TOP_PROFILE', columns='HOUR', values='UNIQUE_WALLETS')
 
-col1, col2 = st.columns(2)
+# --------------------------------------
+# Plot heatmaps
+st.subheader("📅 Weekly Activity Pattern")
+fig1, ax1 = plt.subplots(figsize=(10, 1.5))
+sns.heatmap(pivot_weekday, annot=False, cmap="YlGnBu", cbar=True, ax=ax1)
+ax1.set_ylabel("")
+ax1.set_xlabel("")
+st.pyplot(fig1)
 
-with col1:
-    st.subheader("Activity by Weekday")
-    fig1, ax1 = plt.subplots(figsize=(10, 2))
-    sns.heatmap(pivot_weekday, annot=True, fmt="d", cmap="YlGnBu", ax=ax1)
-    st.pyplot(fig1)
+st.subheader("⏰ Hourly Activity Pattern")
+fig2, ax2 = plt.subplots(figsize=(10, 1.5))
+sns.heatmap(pivot_hourly, annot=False, cmap="YlGnBu", cbar=True, ax=ax2)
+ax2.set_ylabel("")
+ax2.set_xlabel("")
+st.pyplot(fig2)
 
-with col2:
-    st.subheader("Activity by Hour of Day")
-    fig2, ax2 = plt.subplots(figsize=(10, 2))
-    sns.heatmap(pivot_hourly, annot=True, fmt="d", cmap="YlGnBu", ax=ax2)
-    st.pyplot(fig2)
 
+# ـــ
 
 st.markdown("---")
 st.caption("Contact me: bellabahramii@gmail.com")
