@@ -59,11 +59,8 @@ selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 emoji = category_emojis.get(selected_category, "❓")
 
-col1, col2 = st.columns([2, 1])
-with col1:
-    st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
-with col2:
-    fig_pie, ax_pie = plt.subplots(figsize=(2.5, 2.5))  # کوچکتر
+st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+fig_pie, ax_pie = plt.subplots(figsize=(5, 5))  # کوچکتر
     df_counts = df["TOP_PROFILE"].value_counts(normalize=True).sort_values(ascending=False)
     ax_pie.pie(df_counts, labels=df_counts.index, autopct='%1.1f%%', textprops={'fontsize': 6})
     st.pyplot(fig_pie)
