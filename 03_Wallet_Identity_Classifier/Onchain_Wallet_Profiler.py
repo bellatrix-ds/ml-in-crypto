@@ -61,9 +61,9 @@ emoji = category_emojis.get(selected_category, "❓")
 st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
 
 # Pie chart: category distribution
-fig1, ax1 = plt.subplots(figsize=(4, 4))
+fig1, ax1 = plt.subplots(figsize=(6, 6))
 ax1.pie(category_distribution.values(), labels=category_distribution.keys(), autopct='%1.1f%%',
-        startangle=90, textprops={'fontsize': 3})
+        startangle=90, textprops={'fontsize': 6})
 ax1.axis('equal')  # Equal aspect ratio ensures pie is drawn as a circle.
 st.pyplot(fig1)
 
