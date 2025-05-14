@@ -30,18 +30,23 @@ category_emojis = {
     "Bridge User": "🌉",
     "Airdrop Hunter": "🎯"
 }
-selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"].unique())
 
+wallets = df["FROM_ADDRESS"].unique()
+selected_wallet = st.selectbox("🔍 Select a wallet address", wallets)
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
-emoji = category_emojis.get(selected_category, "❓")
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+
+category_table = pd.DataFrame({
+    "Category": list(category_emojis.keys()),
+    "Emoji": [category_emojis[cat] for cat in category_emojis.keys()]
+})
+
 def highlight_selected(row):
-    return ['background-color: lightgreen' if row['TOP_PROFILE'] == selected_category else '' for _ in row]
+    if row["Category"] == selected_category:
+        return ['background-color: lightgreen', 'background-color: lightgreen']
+    return ['', '']
 
-st.markdown("### 📋 All Categories")
-df_display = df[["FROM_ADDRESS", "TOP_PROFILE"]]
-st.dataframe(df_display.style.apply(highlight_selected, axis=1))
-
+st.markdown("### 🧠 Categories")
+st.dataframe(category_table.style.apply(highlight_selected, axis=1))
 
 # ـــ
 
