@@ -58,12 +58,16 @@ selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"
 # Category and emoji
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 emoji = category_emojis.get(selected_category, "❓")
-
 st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
-fig_pie, ax_pie = plt.subplots(figsize=(5, 5))  # کوچکتر
-    df_counts = df["TOP_PROFILE"].value_counts(normalize=True).sort_values(ascending=False)
-    ax_pie.pie(df_counts, labels=df_counts.index, autopct='%1.1f%%', textprops={'fontsize': 6})
-    st.pyplot(fig_pie)
+
+# Pie chart: category distribution
+fig1, ax1 = plt.subplots(figsize=(4, 4))
+ax1.pie(category_distribution.values(), labels=category_distribution.keys(), autopct='%1.1f%%',
+        startangle=90, textprops={'fontsize': 3})
+ax1.axis('equal')  # Equal aspect ratio ensures pie is drawn as a circle.
+st.pyplot(fig1)
+
+
 
 # Line chart: daily activity
 wallet_df = df2[df2['FROM_ADDRESS'] == selected_wallet].copy()
