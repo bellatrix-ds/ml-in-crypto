@@ -16,7 +16,7 @@ df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/04_df_final.csv',
     on_bad_lines='skip')
 
-# Simulated category distribution for pie chart (replace with actual counts if available)
+# Simulated category distribution for pie chart 
 category_distribution = {
     "Dex Trader": 30,
     "Protocol Dev": 2,
@@ -58,14 +58,15 @@ selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"
 # Category and emoji
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 emoji = category_emojis.get(selected_category, "❓")
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
 
-# Pie chart: category distribution
-fig1, ax1 = plt.subplots()
-ax1.pie(category_distribution.values(), labels=category_distribution.keys(), autopct='%1.1f%%',
-        startangle=90, textprops={'fontsize': 8})
-ax1.axis('equal')  # Equal aspect ratio ensures pie is drawn as a circle.
-st.pyplot(fig1)
+col1, col2 = st.columns([2, 1])
+with col1:
+    st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+with col2:
+    fig_pie, ax_pie = plt.subplots(figsize=(2.5, 2.5))  # کوچکتر
+    df_counts = df["TOP_PROFILE"].value_counts(normalize=True).sort_values(ascending=False)
+    ax_pie.pie(df_counts, labels=df_counts.index, autopct='%1.1f%%', textprops={'fontsize': 6})
+    st.pyplot(fig_pie)
 
 # Line chart: daily activity
 wallet_df = df2[df2['FROM_ADDRESS'] == selected_wallet].copy()
