@@ -22,7 +22,7 @@ selected_wallet = st.selectbox("Select a wallet address", df["FROM_ADDRESS"].uni
 
 category = df.loc[df["FROM_ADDRESS"] == selected_wallet, "TOP_PROFILE"].values[0]
 
-st.markdown(f"### 🏷️ Category: `{TOP_PROFILE}`")
+st.markdown(f"### 🏷️ Category: `{category}`")
 # ـــ
 
 
