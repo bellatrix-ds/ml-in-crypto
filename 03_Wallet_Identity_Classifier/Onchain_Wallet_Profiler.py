@@ -229,6 +229,64 @@ fig_gas.update_layout(
 st.plotly_chart(fig_gas, use_container_width=True)
 
 
+# ----------------- Value -----------------
+
+df_value = pd.read_csv(
+    'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart_value.csv',
+    on_bad_lines='skip'
+)
+
+# 🧠 Filter data for selected wallet & category
+wallet_value = df_value[df_value["FROM_ADDRESS"] == selected_wallet]
+category_value = df_value[df_value["TOP_PROFILE"] == selected_category]
+
+# 📊 Group monthly sums and means
+wallet_value_grouped = wallet_value.groupby("MONTH")["WALLET_TOTAL_VALUE"].sum().reset_index()
+category_value_grouped = category_value.groupby("MONTH")["CATEGORY_VALUE_MEAN"].mean().reset_index()
+
+# 🔁 Merge both time series
+merged_value = pd.merge(wallet_value_grouped, category_value_grouped, on="MONTH", how="outer").fillna(0)
+merged_value = merged_value.sort_values("MONTH")
+
+# 🛠️ Fix month format
+merged_value["MONTH"] = pd.to_datetime(merged_value["MONTH"].astype(str), format="%Y-%m", errors="coerce")
+merged_value["MONTH_LABEL"] = merged_value["MONTH"].dt.strftime('%b-%Y')
+
+# 🧮 Convert value from Wei to ETH
+merged_value["WALLET_TOTAL_VALUE"] = merged_value["WALLET_TOTAL_VALUE"] / 1e18
+merged_value["CATEGORY_VALUE_MEAN"] = merged_value["CATEGORY_VALUE_MEAN"] / 1e18
+
+# --------------------------------------
+# 📈 Line chart for Transfer Value
+st.markdown("---")
+fig_value = go.Figure()
+
+fig_value.add_trace(go.Scatter(
+    x=merged_value["MONTH_LABEL"],
+    y=merged_value["WALLET_TOTAL_VALUE"],
+    mode="lines+markers",
+    name="Wallet Transfer Value (ETH)",
+    line=dict(color="blue", width=2)
+))
+
+fig_value.add_trace(go.Scatter(
+    x=merged_value["MONTH_LABEL"],
+    y=merged_value["CATEGORY_VALUE_MEAN"],
+    mode="lines+markers",
+    name=f"{selected_category} Category (Avg)",
+    line=dict(color="orange", width=2, dash="dash")
+))
+
+fig_value.update_layout(
+    title="💸 Wallet Transfer Value",
+    xaxis_title="Month",
+    yaxis_title="Transfer Value (ETH)",
+    hovermode="x unified",
+    height=500
+)
+
+st.plotly_chart(fig_value, use_container_width=True)
+
 # ـــــــــ
 weekday_activity = df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/weekday_activity.csv', on_bad_lines='skip')
 hourly_activity = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/hourly_activity.csv',on_bad_lines='skip')
