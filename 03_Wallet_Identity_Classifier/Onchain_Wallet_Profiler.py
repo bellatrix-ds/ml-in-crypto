@@ -167,7 +167,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title="👛 Wallet Tx Count",
+    title="f"### 👛 This Wallet’s Activity vs. **{selected_category}** Category"",
     xaxis_title="Month",
     yaxis_title="Transaction Count",
     legend_title="Legend",
@@ -176,8 +176,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-
 
 st.markdown("---")
 # ----------------- GAS USED -----------------
