@@ -78,7 +78,8 @@ col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_c
 col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
-st.subheader("📊 Category Metrics Comparison")
+#st.subheader("📊 Category Metrics Comparison")
+st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
 
 
 highlight_color = "#2CA02C"  
