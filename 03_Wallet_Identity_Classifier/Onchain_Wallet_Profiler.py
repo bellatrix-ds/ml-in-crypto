@@ -148,6 +148,7 @@ merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 # --------------------------------------
 # 📈 Line chart
 st.markdown("---")
+# st.markdown()
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
@@ -167,7 +168,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title="f"### 👛 This Wallet’s Activity vs. **{selected_category}** Category"",
+    title="f"### 👛 This Wallet’s Activity vs. **{selected_category}** Category",
     xaxis_title="Month",
     yaxis_title="Transaction Count",
     legend_title="Legend",
