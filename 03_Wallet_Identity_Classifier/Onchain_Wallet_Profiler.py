@@ -65,7 +65,9 @@ metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
-st.subheader("📌 Category Card")
+# st.subheader("📌 Category Card")
+st.markdown(f"### 📌 **{selected_category}%** by the Numbers")
+
 
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
 col1, col2 = st.columns(2)
