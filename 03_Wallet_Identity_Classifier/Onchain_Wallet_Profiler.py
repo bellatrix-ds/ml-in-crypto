@@ -56,7 +56,7 @@ category_distribution = {
     "Airdrop Hunter": 10
 }
 market_share = category_distribution.get(selected_category, 0)
-st.markdown(f"### 📊 Market Share: **{market_share}%**")
+st.markdown(f"### 🧩 This Category Powers **{market_share}%** of the Chain")
 st.markdown("---")
 
 #‌ـــــــ
@@ -76,7 +76,8 @@ col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_c
 col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
-st.markdown("###📊 Category Metrics Comparison")
+st.subheader("📊 Category Metrics Comparison")
+
 
 highlight_color = "#2CA02C"  
 default_color = "#DDDDDD"  
