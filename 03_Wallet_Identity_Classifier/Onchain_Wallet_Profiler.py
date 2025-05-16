@@ -66,7 +66,7 @@ metrics_df = pd.read_csv(
     on_bad_lines='skip')
 
 # st.subheader("📌 Category Card")
-st.markdown(f"### 📌 **{selected_category}%** by the Numbers")
+st.markdown(f"### 📌 **{selected_category}** Category by the Numbers")
 
 
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
