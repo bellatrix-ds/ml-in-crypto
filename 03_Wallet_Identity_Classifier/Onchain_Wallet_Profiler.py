@@ -39,7 +39,8 @@ selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"
 # Category for selected wallet
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 emoji = category_emojis.get(selected_category, "❓")
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+
+st.markdown(f"### 🏷️ Wallet Classified As: **{emoji} {selected_category}**")
 
 # --------------------------------------
 # Simulated market share
