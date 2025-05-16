@@ -170,7 +170,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title=(f"### 👛 This Wallet’s Activity vs. **{selected_category}** Category"),
+    title=(f" 👛 This Wallet’s Activity vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Transaction Count",
     legend_title="Legend",
@@ -225,7 +225,7 @@ fig_gas.add_trace(go.Scatter(
 ))
 
 fig_gas.update_layout(
-    title="⛽ Wallet Gas Used",
+    title= (f" ⛽ Wallet Gas Used vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Gas Used",
     hovermode="x unified",
@@ -284,7 +284,7 @@ fig_value.add_trace(go.Scatter(
 ))
 
 fig_value.update_layout(
-    title="💸 Wallet Transfer Value",
+    title= (f" 💸 Wallet Transfer Value vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Transfer Value (ETH)",
     hovermode="x unified",
