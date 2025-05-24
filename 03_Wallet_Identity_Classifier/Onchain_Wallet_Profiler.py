@@ -39,7 +39,8 @@ selected_wallet = st.selectbox("🔍 Select a wallet address", df["FROM_ADDRESS"
 # Category for selected wallet
 selected_category = df[df["FROM_ADDRESS"] == selected_wallet]["TOP_PROFILE"].values[0]
 emoji = category_emojis.get(selected_category, "❓")
-st.markdown(f"### 🏷️ Category: **{emoji} {selected_category}**")
+
+st.markdown(f"### 🏷️ Wallet Classified As: **{emoji} {selected_category}**")
 
 # --------------------------------------
 # Simulated market share
@@ -56,7 +57,7 @@ category_distribution = {
     "Airdrop Hunter": 10
 }
 market_share = category_distribution.get(selected_category, 0)
-st.markdown(f"### 📊 Market Share: **{market_share}%**")
+st.markdown(f"### 🧩 This Category Powers **{market_share}%** of the Chain")
 st.markdown("---")
 
 #‌ـــــــ
@@ -65,7 +66,9 @@ metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
-st.subheader("📌 Category Card")
+# st.subheader("📌 Category Card")
+st.markdown(f"### 📌 **{selected_category}** Category by the Numbers")
+
 
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
 col1, col2 = st.columns(2)
@@ -76,7 +79,9 @@ col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_c
 col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
 col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 
-st.markdown("###📊 Category Metrics Comparison")
+#st.subheader("📊 Category Metrics Comparison")
+st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
+
 
 highlight_color = "#2CA02C"  
 default_color = "#DDDDDD"  
@@ -143,6 +148,9 @@ merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 # --------------------------------------
 # 📈 Line chart
 st.markdown("---")
+#st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
+
+
 fig = go.Figure()
 
 fig.add_trace(go.Scatter(
@@ -162,7 +170,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title="👛 Wallet Tx Count",
+    title=(f" 👛 This Wallet’s Activity vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Transaction Count",
     legend_title="Legend",
@@ -171,8 +179,6 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
-
 
 st.markdown("---")
 # ----------------- GAS USED -----------------
@@ -219,7 +225,7 @@ fig_gas.add_trace(go.Scatter(
 ))
 
 fig_gas.update_layout(
-    title="⛽ Wallet Gas Used",
+    title= (f" ⛽ Wallet Gas Used vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Gas Used",
     hovermode="x unified",
@@ -278,7 +284,7 @@ fig_value.add_trace(go.Scatter(
 ))
 
 fig_value.update_layout(
-    title="💸 Wallet Transfer Value",
+    title= (f" 💸 Wallet Transfer Value vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Transfer Value (ETH)",
     hovermode="x unified",
