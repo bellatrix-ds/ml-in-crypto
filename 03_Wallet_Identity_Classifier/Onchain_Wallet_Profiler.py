@@ -18,7 +18,7 @@ df = pd.read_csv(
 
 # --------------------------------------
 # Streamlit UI
-st.title("🧠 Onchain Wallet Profiler")
+st.title("🧬 Onchain Wallet Behavior Analyzer")
 
 category_emojis = {
     "Dex Trader": "📈",
