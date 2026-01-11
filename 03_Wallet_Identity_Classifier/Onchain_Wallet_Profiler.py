@@ -90,18 +90,18 @@ metrics_df = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/metrics_df.csv',
     on_bad_lines='skip')
 
-# st.subheader("📌 Category Card")
-st.markdown(f"### 📌 **{selected_category}** Category by the Numbers")
+
 
 
 selected_metrics = metrics_df[metrics_df['TOP_PROFILE'] == selected_category].squeeze()
 col1, col2 = st.columns(2)
 col3, col4 = st.columns(2)
 
-col1.metric("📊 Avg Tx per Month", f"{selected_metrics['avg_tx_per_month']:.0f}")
-col2.metric("🔣 Unique Function Count", f"{selected_metrics['unique_function_count']}")
-col3.metric("📜 Unique Contract Count", f"{selected_metrics['unique_contract_count']}")
-col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
+
+# 📊 Avg Tx per Mont
+# 📜 Unique Contrac
+# ⛽ Avg Gas Used
+
 
 #st.subheader("📊 Category Metrics Comparison")
 st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
