@@ -107,7 +107,7 @@ col4.metric("⛽ Avg Gas Used", f"{selected_metrics['avg_gas_used']:.0f}")
 st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
 
 
-highlight_color = "#2CA02C"  
+highlight_color = "#FF38D3"  
 default_color = "#DDDDDD"  
 
 metrics_df["COLOR"] = metrics_df["TOP_PROFILE"].apply(
