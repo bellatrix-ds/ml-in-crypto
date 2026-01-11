@@ -238,13 +238,18 @@ with col2:
     line=dict(color="orange", width=2, dash="dash")
     ))
     fig_gas.update_layout(
-    title= (f" ⛽ Wallet Gas Used vs. {selected_category} Category"),
+    title=f" ⛽ Wallet Gas Used vs. {selected_category} Category",
     xaxis_title="Month",
     yaxis_title="Gas Used",
     hovermode="x unified",
-    orientation="h",
-    height=500 )
-    
+    height=500,
+    legend=dict(
+        orientation="h",     # horizontal legend
+        yanchor="bottom",
+        y=1.02,              # slightly above plot area
+        xanchor="center",
+        x=0.5
+    ))
     st.plotly_chart(fig_gas, use_container_width=True)
 
 
