@@ -216,7 +216,14 @@ with col1:
     yaxis_title="Transaction Count",
     legend_title="Legend",
     hovermode="x unified",
-    height=500
+    height=500,
+        legend=dict(
+        orientation="h",     # horizontal legend
+        yanchor="bottom",
+        y=1.02,              # slightly above plot area
+        xanchor="center",
+        x=0.5
+    )
 )
     st.plotly_chart(fig, use_container_width=True)
     
