@@ -287,36 +287,6 @@ merged_value["MONTH_LABEL"] = merged_value["MONTH"].dt.strftime('%b-%Y')
 merged_value["WALLET_TOTAL_VALUE"] = merged_value["WALLET_TOTAL_VALUE"] / 1e18
 merged_value["CATEGORY_VALUE_MEAN"] = merged_value["CATEGORY_VALUE_MEAN"] / 1e18
 
-# --------------------------------------
-# 📈 Line chart for Transfer Value
-
-fig_value = go.Figure()
-
-fig_value.add_trace(go.Scatter(
-    x=merged_value["MONTH_LABEL"],
-    y=merged_value["WALLET_TOTAL_VALUE"],
-    mode="lines+markers",
-    name="Wallet Transfer Value (ETH)",
-    line=dict(color="blue", width=2)
-))
-
-fig_value.add_trace(go.Scatter(
-    x=merged_value["MONTH_LABEL"],
-    y=merged_value["CATEGORY_VALUE_MEAN"],
-    mode="lines+markers",
-    name=f"{selected_category} Category (Avg)",
-    line=dict(color="orange", width=2, dash="dash")
-))
-
-fig_value.update_layout(
-    title= (f" 💸 Wallet Transfer Value vs. {selected_category} Category"),
-    xaxis_title="Month",
-    yaxis_title="Transfer Value (ETH)",
-    hovermode="x unified",
-    height=500
-)
-
-st.plotly_chart(fig_value, use_container_width=True)
 
 # ـــــــــ
 weekday_activity = df = pd.read_csv('https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/weekday_activity.csv', on_bad_lines='skip')
@@ -349,6 +319,37 @@ ax2.set_ylabel("")
 ax2.set_xlabel("")
 st.pyplot(fig2)
 
+
+# --------------------------------------
+# 📈 Line chart for Transfer Value
+
+fig_value = go.Figure()
+
+fig_value.add_trace(go.Scatter(
+    x=merged_value["MONTH_LABEL"],
+    y=merged_value["WALLET_TOTAL_VALUE"],
+    mode="lines+markers",
+    name="Wallet Transfer Value (ETH)",
+    line=dict(color="blue", width=2)
+))
+
+fig_value.add_trace(go.Scatter(
+    x=merged_value["MONTH_LABEL"],
+    y=merged_value["CATEGORY_VALUE_MEAN"],
+    mode="lines+markers",
+    name=f"{selected_category} Category (Avg)",
+    line=dict(color="orange", width=2, dash="dash")
+))
+
+fig_value.update_layout(
+    title= (f" 💸 Wallet Transfer Value vs. {selected_category} Category"),
+    xaxis_title="Month",
+    yaxis_title="Transfer Value (ETH)",
+    hovermode="x unified",
+    height=500
+)
+
+st.plotly_chart(fig_value, use_container_width=True)
 
 # ـــ
 
