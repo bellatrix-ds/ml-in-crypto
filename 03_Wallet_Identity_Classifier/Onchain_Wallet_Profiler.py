@@ -98,10 +98,6 @@ col1, col2 = st.columns(2)
 col3, col4 = st.columns(2)
 
 
-# 📊 Avg Tx per Mont
-# 📜 Unique Contrac
-# ⛽ Avg Gas Used
-
 
 #st.subheader("📊 Category Metrics Comparison")
 st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
@@ -130,15 +126,15 @@ def create_bar_chart(y_col, title):
 # ----------------------
 col1, col2 = st.columns(2)
 with col1:
-    st.plotly_chart(create_bar_chart("avg_tx_per_month", "Avg Tx per Month"), use_container_width=True)
+    st.plotly_chart(create_bar_chart("avg_tx_per_month", "📊 Avg Tx per Month"), use_container_width=True)
 with col2:
-    st.plotly_chart(create_bar_chart("unique_function_count", "Unique Function Count"), use_container_width=True)
+    st.plotly_chart(create_bar_chart("unique_function_count", "⛓️‍💥 Unique Function Count"), use_container_width=True)
 
 col3, col4 = st.columns(2)
 with col3:
-    st.plotly_chart(create_bar_chart("unique_contract_count", "Unique Contract Count"), use_container_width=True)
+    st.plotly_chart(create_bar_chart("unique_contract_count", "📜 Unique Contract Count"), use_container_width=True)
 with col4:
-    st.plotly_chart(create_bar_chart("avg_gas_used", "Avg Gas Used"), use_container_width=True)
+    st.plotly_chart(create_bar_chart("avg_gas_used", "⛽ Avg Gas Used"), use_container_width=True)
 
 st.markdown("---")
 
