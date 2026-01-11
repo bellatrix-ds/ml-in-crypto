@@ -166,7 +166,7 @@ merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 
 # --------------------------------------
 # 📈 Line chart
-st.markdown("---")
+
 #st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
 
 
@@ -199,7 +199,7 @@ fig.update_layout(
 
 st.plotly_chart(fig, use_container_width=True)
 
-st.markdown("---")
+
 # ----------------- GAS USED -----------------
 # 📥 Load preprocessed gas usage data
 df_gas = pd.read_csv(
@@ -283,7 +283,7 @@ merged_value["CATEGORY_VALUE_MEAN"] = merged_value["CATEGORY_VALUE_MEAN"] / 1e18
 
 # --------------------------------------
 # 📈 Line chart for Transfer Value
-st.markdown("---")
+
 fig_value = go.Figure()
 
 fig_value.add_trace(go.Scatter(
@@ -346,7 +346,7 @@ st.pyplot(fig2)
 
 # ـــ
 
-st.markdown("---")
+
 st.caption("Contact me: bellabahramii@gmail.com")
 
 
