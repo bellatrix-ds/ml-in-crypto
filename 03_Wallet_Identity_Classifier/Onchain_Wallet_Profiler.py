@@ -170,45 +170,10 @@ merged["MONTH_LABEL"] = merged["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 
 #st.markdown(f"### 🤺 **{selected_category}** vs. Other Onchain Beasts")
 
-
-fig = go.Figure()
-
-fig.add_trace(go.Scatter(
-    x=merged["MONTH_LABEL"],
-    y=merged["WALLET_TX_COUNT"],
-    mode="lines+markers",
-    name="Select Wallet Transactions",
-    line=dict(color="blue", width=2)
-))
-
-fig.add_trace(go.Scatter(
-    x=merged["MONTH_LABEL"],
-    y=merged["CATEGORY_TX_MEAN"],
-    mode="lines+markers",
-    name=f"{selected_category} Category",
-    line=dict(color="orange", width=2, dash="dash")
-))
-
-fig.update_layout(
-    title=(f" 👛 This Wallet’s Activity vs. {selected_category} Category"),
-    xaxis_title="Month",
-    yaxis_title="Transaction Count",
-    legend_title="Legend",
-    hovermode="x unified",
-    height=500
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
-
-# ----------------- GAS USED -----------------
-# 📥 Load preprocessed gas usage data
 df_gas = pd.read_csv(
     'https://raw.githubusercontent.com/bellatrix-ds/ml-in-crypto/refs/heads/main/03_Wallet_Identity_Classifier/line_chart_gas.csv',
-    on_bad_lines='skip'
-)
-
-# 🧠 Filter data for selected wallet & category
+    on_bad_lines='skip' )
+    # 🧠 Filter data for selected wallet & category
 wallet_gas = df_gas[df_gas["FROM_ADDRESS"] == selected_wallet]
 category_gas = df_gas[df_gas["TOP_PROFILE"] == selected_category]
 
@@ -224,35 +189,62 @@ merged_gas = merged_gas.sort_values("MONTH")
 merged_gas["MONTH"] = pd.to_datetime(merged_gas["MONTH"].astype(str), format="%Y-%m", errors="coerce")
 merged_gas["MONTH_LABEL"] = merged_gas["MONTH"].dt.strftime('%b-%Y')  # e.g. Jan-2024
 
-# 📈 Line chart for Gas Used
-st.markdown("---")
-fig_gas = go.Figure()
 
-fig_gas.add_trace(go.Scatter(
+
+
+col1, col2 = st.columns(2)
+with col1:
+    fig = go.Figure()
+    
+    fig.add_trace(go.Scatter(
+    x=merged["MONTH_LABEL"],
+    y=merged["WALLET_TX_COUNT"],
+    mode="lines+markers",
+    name="Select Wallet Transactions",
+    line=dict(color="blue", width=2)
+))
+    fig.add_trace(go.Scatter(
+    x=merged["MONTH_LABEL"],
+    y=merged["CATEGORY_TX_MEAN"],
+    mode="lines+markers",
+    name=f"{selected_category} Category",
+    line=dict(color="orange", width=2, dash="dash")
+))
+    fig.update_layout(
+    title=(f" 👛 This Wallet’s Activity vs. {selected_category} Category"),
+    xaxis_title="Month",
+    yaxis_title="Transaction Count",
+    legend_title="Legend",
+    hovermode="x unified",
+    height=500
+)
+    st.plotly_chart(fig, use_container_width=True)
+    
+# ----------------- GAS USED -----------------
+with col2:
+    fig_gas = go.Figure()
+    fig_gas.add_trace(go.Scatter(
     x=merged_gas["MONTH_LABEL"],
     y=merged_gas["WALLET_GAS_USED"],
     mode="lines+markers",
     name="Wallet Gas Used",
     line=dict(color="blue", width=2)
-))
-
-fig_gas.add_trace(go.Scatter(
+    )) 
+    fig_gas.add_trace(go.Scatter(
     x=merged_gas["MONTH_LABEL"],
     y=merged_gas["CATEGORY_GAS_MEAN"],
     mode="lines+markers",
     name=f"{selected_category} Category",
     line=dict(color="orange", width=2, dash="dash")
-))
-
-fig_gas.update_layout(
+    ))
+    fig_gas.update_layout(
     title= (f" ⛽ Wallet Gas Used vs. {selected_category} Category"),
     xaxis_title="Month",
     yaxis_title="Gas Used",
     hovermode="x unified",
-    height=500
-)
-
-st.plotly_chart(fig_gas, use_container_width=True)
+    height=500 )
+    
+    st.plotly_chart(fig_gas, use_container_width=True)
 
 
 # ----------------- Value -----------------
