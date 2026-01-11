@@ -218,7 +218,7 @@ with col1:
     hovermode="x unified",
     height=500,
         legend=dict(
-        orientation="h",     # horizontal legend
+        orientation="v",     # horizontal legend
         yanchor="bottom",
         y=1.02,              # slightly above plot area
         xanchor="center",
