@@ -42,6 +42,27 @@ emoji = category_emojis.get(selected_category, "❓")
 
 st.markdown(f"### 🏷️ Wallet Classified As: **{emoji} {selected_category}**")
 
+# _________
+
+
+with st.sidebar:
+    st.markdown("---")
+    st.image("04_DeFi_Lending_Protocol/JGqdjaIW_400x400.jpg", width=100)  
+    st.markdown("**My name is Bella**")
+    st.caption("Blockchain Research Analyst")
+    st.caption("**Get in touch: 👇🏼**")
+
+    c1, c2 = st.columns(2)
+    with c1:
+        st.link_button("Portfolio", "https://bellabahrami.carrd.co/")
+    with c2:
+        st.link_button("GitHub", "https://github.com/bellatrix-ds")
+
+    st.link_button("x.com", "https://x.com/Bella52496")
+    st.markdown("---")
+
+
+
 # --------------------------------------
 # Simulated market share
 category_distribution = {
