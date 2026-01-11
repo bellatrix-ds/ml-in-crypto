@@ -242,6 +242,7 @@ with col2:
     xaxis_title="Month",
     yaxis_title="Gas Used",
     hovermode="x unified",
+    orientation="h",
     height=500 )
     
     st.plotly_chart(fig_gas, use_container_width=True)
